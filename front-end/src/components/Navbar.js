@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+import { Link, NavLink } from "react-router-dom";
 
 function Navbar() {
   return (
@@ -8,15 +8,30 @@ function Navbar() {
           <h1 className="lg:pl-24 my-shop pl-8 py-4 text-3xl">MY-SHOP</h1>
         </Link>
         <ul className="hidden pr-24 md:flex items-center text-base font-extralight cursor-pointer">
-          <Link to="/">
-            <li className="hidden:bg-gray-200 py-4 px-6">Home</li>
-          </Link>
-          <Link to="/product">
-            <li className="hidden:bg-gray-200 py-4 px-6">Product</li>
-          </Link>
-          <Link to="/cart">
-            <li className="hidden:bg-gray-200 py-4 px-6">Cart</li>
-          </Link>
+          <NavLink
+            to="/"
+            className={(data) =>
+              data.isActive ? "border-b-2 border-gray-400" : ""
+            }
+          >
+            <li className="hidden:bg-gray-200 py-6 px-6">Home</li>
+          </NavLink>
+          <NavLink
+            to="/product"
+            className={(data) =>
+              data.isActive ? "border-b-2 border-gray-400" : ""
+            }
+          >
+            <li className="hidden:bg-gray-200 py-6 px-6">Product</li>
+          </NavLink>
+          <NavLink
+            to="/cart"
+            className={(data) =>
+              data.isActive ? "border-b-2 border-gray-400" : ""
+            }
+          >
+            <li className="hidden:bg-gray-200 py-6 px-6">Cart</li>
+          </NavLink>
         </ul>
         <button className="block md:hidden mr-8 rounded hover:bg-gray-200 group">
           <svg
@@ -41,15 +56,21 @@ function Navbar() {
             transform group-focus:right-0 group-focus:opacity-100 transition-all duration-300"
           >
             <ul className="flex flex-col items-center w-full text-base cursor-pointer pt-10">
-              <li className="hover:bg-gray-200 py-4 px-6 w-full font-extralight">
-                Home
-              </li>
-              <li className="hover:bg-gray-200 py-4 px-6 w-full font-extralight">
-                Product
-              </li>
-              <li className="hover:bg-gray-200 py-4 px-6 w-full font-extralight">
-                Cart
-              </li>
+              <Link to="/">
+                <li className="hover:bg-gray-200 py-4 px-6 w-full font-extralight">
+                  Home
+                </li>
+              </Link>
+              <Link to="/product">
+                <li className="hover:bg-gray-200 py-4 px-6 w-full font-extralight">
+                  Product
+                </li>
+              </Link>
+              <Link to="/cart">
+                <li className="hover:bg-gray-200 py-4 px-6 w-full font-extralight">
+                  Cart
+                </li>
+              </Link>
             </ul>
           </div>
         </button>
