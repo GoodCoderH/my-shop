@@ -7,6 +7,36 @@ function Navbar() {
         <Link to="/">
           <h1 className="lg:pl-24 my-shop pl-8 py-4 text-3xl">MY-SHOP</h1>
         </Link>
+        <div className="flex justify-between py-3 px-6">
+          <form action="" className="w-full max-w-md">
+            <div className="relative flex items-center">
+              <svg
+                className="w-5 y-5 absolute ml-3 pointer-events-none text-gray-500"
+                width="24"
+                height="24"
+                viewBox="0 0 24 24"
+                stroke-width="2"
+                stroke="currentColor"
+                fill="none"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              >
+                {" "}
+                <path stroke="none" d="M0 0h24v24H0z" />{" "}
+                <circle cx="10" cy="10" r="7" />{" "}
+                <line x1="21" y1="21" x2="15" y2="15" />
+              </svg>
+              <input
+                type="text"
+                name="search"
+                placeholder="Search"
+                autocomplete="off"
+                aria-label="Search"
+                className="w-full pr-3 pl-10 py-2 placeholder:font-extralight outline-none placeholder-gray-400 text-black rounded-2xl border-none ring-2 ring-gray-300 focus:ring-gray-500 focus:ring-2"
+              ></input>
+            </div>
+          </form>
+        </div>
         <ul className="hidden pr-24 md:flex items-center text-base font-extralight cursor-pointer">
           <NavLink
             to="/"
