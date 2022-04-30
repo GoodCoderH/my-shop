@@ -8,6 +8,10 @@
   font-family: "Fredericka the Great", cursive;
 }
 
+body {
+  font-family: "Barlow", sans-serif;
+}
+
 .hero,
 li {
   font-family: "Barlow", sans-serif;
