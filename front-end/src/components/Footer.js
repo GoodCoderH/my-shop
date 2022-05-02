@@ -29,7 +29,7 @@ function Footer() {
           </div>
         </div>
         <div className="pt-2">
-          <p>© 2020 Executive Trade International.</p>
+          <p>© 2022 Executive Trade International.</p>
         </div>
       </div>
     </footer>

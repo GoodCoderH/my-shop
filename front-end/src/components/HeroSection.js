@@ -1,3 +1,5 @@
+import { Link } from "react-router-dom";
+
 function HeroSection() {
   return (
     <main className="w-screen h-screen pt-40 pb-40 flex justify-center items-center">
@@ -17,12 +19,12 @@ function HeroSection() {
           Get the
           <br /> new products!
         </h1>
-        <a
-          href="#"
-          class="w-48 mt-10 bg-transparent border hero border-black text-black hover:bg-black hover:text-white text-center py-2 px-4 rounded"
+        <Link
+          className="w-48 mt-10 bg-transparent border hero border-black text-black hover:bg-black hover:text-white text-center py-2 px-4 rounded"
+          to="/login"
         >
           Start
-        </a>
+        </Link>
       </div>
     </main>
   );
