@@ -1,9 +1,9 @@
 spring:
   datasource:
-    url: ENC(KB7flK8f68yLUoBIE9B7318ItunayoCodbQP4SZMkjI3HPW0r5kav3EVFPYxHYF1)
-    username: ENC(lxbI1y6cHRKYVnAJXqkirQ==)
-    password: ENC(URqw1/5UjZCMl0VWHtuD/0XgyfWVACUN)
-    driver-class-name: ENC(S8UwSXmvcq82WyKA3+7kybfBWurV3uya)
+    url: ENC(6eGmsNCg+cWNCcEdJNu+yvtRjkWnLCl2+E+Rn8xEdJZI4X2JFdAdDwdvrBvtZhG3)
+    username: ENC(fUMJMfG48GAJPL3t1Nbi7A==)
+    password: ENC(LGrpvoQpg8Gu/mhFER0BgKVGiQw9OF/Z)
+    driver-class-name: ENC(OAiP+FORCZKNrY68F9SiXN6RTeo3c6j6z021cKc+qUA=)
 
   jpa:
     hibernate:
