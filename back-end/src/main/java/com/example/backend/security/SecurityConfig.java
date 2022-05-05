@@ -11,7 +11,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        http
+        http.csrf().disable()
                 .authorizeRequests()
                     .antMatchers("/resources/**").permitAll()
                     .antMatchers("/css/**").permitAll()
@@ -25,7 +25,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                     .loginProcessingUrl("/authentication").defaultSuccessUrl("/", true).and()
                     .exceptionHandling().accessDeniedPage("/forbidden").and()
                 .logout()
-                .logoutUrl("/logout")
-                .logoutSuccessUrl("/");
+                    .logoutUrl("/logout")
+                    .logoutSuccessUrl("/");
     }
 }
