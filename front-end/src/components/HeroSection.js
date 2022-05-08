@@ -6,10 +6,12 @@ function HeroSection() {
       <div className="lg:flex hidden">
         <img
           className="h-96 w-60 m-5 rounded-3xl shadow-md"
+          alt="headset"
           src="/images/headset.jpg"
         />
         <img
           className="h-96 w-60 m-5 rounded-3xl shadow-md"
+          alt="sunglasses"
           src="/images/sunglasses.jpg"
         />
       </div>
