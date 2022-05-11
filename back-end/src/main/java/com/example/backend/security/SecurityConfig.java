@@ -1,5 +1,6 @@
 package com.example.backend.security;
 
+import com.example.backend.config.CorsConfig;
 import com.example.backend.jwt.JwtAuthenticationFilter;
 import com.example.backend.jwt.JwtAuthorizationFilter;
 import com.example.backend.jwt.JwtProperties;
@@ -10,12 +11,14 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.http.SessionCreationPolicy;
+import com.example.backend.config.CorsConfig.*;
 
 @Configuration
 @EnableWebSecurity
 @RequiredArgsConstructor
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
+    private final CorsConfig corsConfig;
     private final UserRepository userRepository;
     private final JwtProperties jwtProperties;
 
@@ -27,6 +30,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .and()
                 .formLogin().disable()
                 .httpBasic().disable()
+                .addFilter(corsConfig.corsFilter())
                 .addFilter(new JwtAuthenticationFilter(authenticationManager(), jwtProperties))
                 .addFilter(new JwtAuthorizationFilter(authenticationManager(), userRepository, jwtProperties))
                 .authorizeRequests()
