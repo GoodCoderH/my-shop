@@ -1,3 +1,4 @@
+import axios from "axios";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 
@@ -22,7 +23,22 @@ function SignIn() {
     setPassword(password);
   }
 
-  function onSubmit() {}
+  async function onSubmit(data) {
+    const URL = "http://localhost:8080/login";
+
+    try {
+      const response = await axios(URL, {
+        method: "POST",
+        headers: {
+          "content-type": "application/json",
+        },
+        data,
+      });
+      return response.data;
+    } catch (error) {
+      throw error;
+    }
+  }
 
   return (
     <main className="flex items-center justify-center h-screen bg-gray-100">
