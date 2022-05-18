@@ -2,6 +2,7 @@ package com.example.backend.security;
 
 import com.example.backend.config.CorsConfig;
 import com.example.backend.filter.CustomAuthenticationFilter;
+import com.example.backend.filter.CustomAuthorizationFilter;
 import com.example.backend.jwt.JwtProperties;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
@@ -14,6 +15,7 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 @Configuration
 @EnableWebSecurity
@@ -41,10 +43,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .and()
                 .formLogin().disable()
                 .httpBasic().disable()
+                .addFilterBefore(new CustomAuthorizationFilter(jwtProperties), UsernamePasswordAuthenticationFilter.class)
                 .addFilter(corsConfig.corsFilter())
                 .addFilter(customAuthenticationFilter)
                 .authorizeRequests()
-                .antMatchers("/api/login/**").permitAll()
+                .antMatchers("/api/login/**", "/api/token/refresh/**").permitAll()
                 .antMatchers("/api/user/**").hasAnyAuthority("ROLE_USER")
                 .antMatchers("/api/user/save/**").hasAnyAuthority("ROLE_ADMIN")
                 .anyRequest().authenticated();
