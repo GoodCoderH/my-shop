@@ -1,6 +1,7 @@
-import axios from "axios";
-import { useState } from "react";
+import axios from "../api/axios";
+import { useReducer, useState } from "react";
 import { useForm } from "react-hook-form";
+import { Navigate } from "react-router-dom";
 
 function SignIn() {
   const {
@@ -9,35 +10,27 @@ function SignIn() {
     formState: { errors },
   } = useForm();
 
-  const [username, setUsername] = useState("");
-
-  function onChangeUsername(e) {
-    const username = e.target.value;
-    setUsername(username);
-  }
-
-  const [password, setPassword] = useState("");
-
-  function onChangePassword(e) {
-    const password = e.target.value;
-    setPassword(password);
-  }
+  const [navigate, setNavigate] = useState(false);
 
   async function onSubmit(data) {
-    const URL = "http://localhost:8080/login";
-
     try {
-      const response = await axios(URL, {
+      const response = await axios("/login", {
         method: "POST",
         headers: {
           "content-type": "application/json",
         },
         data,
+        withCredentials: true,
       });
-      return response.data;
+      console.log(response.data);
+      // setNavigate(true);
     } catch (error) {
       throw error;
     }
+  }
+
+  if (navigate) {
+    return <Navigate to="/" />;
   }
 
   return (
@@ -54,7 +47,6 @@ function SignIn() {
             id="username"
             type="text"
             aria-invalid={errors.username ? "true" : "false"}
-            onChange={onChangeUsername}
             {...register("username", { required: true })}
             className="w-full py-2 bg-gray-100 text-gray-500 px-1 outline-none mb-4"
           />
@@ -62,7 +54,6 @@ function SignIn() {
           <input
             type="password"
             aria-invalid={errors.password ? "true" : "false"}
-            onChange={onChangePassword}
             {...register("password", { required: true })}
             className="w-full py-2 bg-gray-100 text-gray-500 px-1 outline-none mb-4"
           />

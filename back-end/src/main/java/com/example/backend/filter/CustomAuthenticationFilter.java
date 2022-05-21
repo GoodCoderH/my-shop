@@ -2,6 +2,7 @@ package com.example.backend.filter;
 
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
+import com.example.backend.dto.LoginRequestDto;
 import com.example.backend.jwt.JwtProperties;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;
@@ -39,8 +40,19 @@ public class CustomAuthenticationFilter extends UsernamePasswordAuthenticationFi
 
     @Override
     public Authentication attemptAuthentication(HttpServletRequest request, HttpServletResponse response) throws AuthenticationException {
-        String username = request.getParameter("username");
-        String password = request.getParameter("password");
+
+        ObjectMapper om = new ObjectMapper();
+
+        LoginRequestDto loginRequestDto = null;
+
+        try {
+            loginRequestDto = om.readValue(request.getInputStream(),LoginRequestDto.class);
+        } catch (Exception e) {
+            log.error("Error", e);
+        }
+
+        String username = loginRequestDto.getUsername();
+        String password = loginRequestDto.getPassword();
 
         log.info("Username is {}", username);
         log.info("Password is {}", password);
