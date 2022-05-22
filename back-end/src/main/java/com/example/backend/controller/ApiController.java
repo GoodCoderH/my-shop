@@ -36,6 +36,11 @@ public class ApiController {
     private final UserService userService;
     private final JwtProperties jwtProperties;
 
+    @GetMapping("/test")
+    public String test(){
+        return "hello";
+    }
+
     @GetMapping("/users")
     public ResponseEntity<List<User>> getUsers() {
         return ResponseEntity.ok().body(userService.getUsers());

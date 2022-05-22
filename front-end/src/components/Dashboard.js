@@ -5,11 +5,9 @@ function Dashboard() {
   const [users, setUsers] = useState("");
 
   async function getUsers() {
-    const response = await axios("/users", {
-      method: "GET",
-      withCredentials: true,
+    await axios.get("/users").then((res) => {
+      setUsers(res.data);
     });
-    console.log(response.data);
   }
 
   useEffect(() => {

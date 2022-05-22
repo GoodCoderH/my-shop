@@ -15,11 +15,11 @@ function Navbar() {
                 width="24"
                 height="24"
                 viewBox="0 0 24 24"
-                stroke-width="2"
+                strokeWidth="2"
                 stroke="currentColor"
                 fill="none"
-                stroke-linecap="round"
-                stroke-linejoin="round"
+                stroklinecap="round"
+                strokeLinejoin="round"
               >
                 {" "}
                 <path stroke="none" d="M0 0h24v24H0z" />{" "}
@@ -30,7 +30,7 @@ function Navbar() {
                 type="text"
                 name="search"
                 placeholder="Search"
-                autocomplete="off"
+                autoComplete="off"
                 aria-label="Search"
                 className="w-full pr-3 pl-10 py-2 placeholder:font-extralight outline-none placeholder-gray-400 text-black rounded-2xl border-none ring-2 ring-gray-300 focus:ring-gray-500 focus:ring-2"
               ></input>
@@ -65,15 +65,15 @@ function Navbar() {
         </ul>
         <button className="block md:hidden mr-8 rounded hover:bg-gray-200 group">
           <svg
-            class="h-8 w-8 text-gray-500"
+            className="h-8 w-8 text-gray-500"
             width="24"
             height="24"
             viewBox="0 0 24 24"
-            stroke-width="2"
+            strokeWidth="2"
             stroke="currentColor"
             fill="none"
-            stroke-linecap="round"
-            stroke-linejoin="round"
+            strokeLinecap="round"
+            strokeLinejoin="round"
           >
             {" "}
             <path stroke="none" d="M0 0h24v24H0z" />{" "}

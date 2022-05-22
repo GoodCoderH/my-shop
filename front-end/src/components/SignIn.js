@@ -13,20 +13,10 @@ function SignIn() {
   const [navigate, setNavigate] = useState(false);
 
   async function onSubmit(data) {
-    try {
-      const response = await axios("/login", {
-        method: "POST",
-        headers: {
-          "content-type": "application/json",
-        },
-        data,
-        withCredentials: true,
-      });
-      console.log(response.data);
-      // setNavigate(true);
-    } catch (error) {
-      throw error;
-    }
+    await axios.post("/login", data).then((res) => {
+      console.log(res.data);
+      setNavigate(true);
+    });
   }
 
   if (navigate) {
@@ -58,7 +48,7 @@ function SignIn() {
             className="w-full py-2 bg-gray-100 text-gray-500 px-1 outline-none mb-4"
           />
           <input id="remember" className="mb-6" type="checkbox" />
-          <label for="remember" className="text-gray-700 text-lg">
+          <label htmlFor="remember" className="text-gray-700 text-lg">
             Remember me
           </label>
 
@@ -73,4 +63,5 @@ function SignIn() {
     </main>
   );
 }
+
 export default SignIn;
