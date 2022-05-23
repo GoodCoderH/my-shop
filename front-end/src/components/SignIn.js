@@ -10,12 +10,27 @@ function SignIn() {
     formState: { errors },
   } = useForm();
 
+  const initialState = {
+    authenticated: false,
+    token: null,
+  };
+
+  function reducer(state, action) {
+    switch (action.type) {
+      case "SET_TOKEN":
+        return { ...state, token: action.token, authenticated: action.result };
+      default:
+        return state;
+    }
+  }
+
   const [navigate, setNavigate] = useState(false);
 
   async function onSubmit(data) {
     await axios.post("/login", data).then((res) => {
-      console.log(res.data);
-      setNavigate(true);
+      const accessToken = res.data;
+      console.log(accessToken);
+      // setNavigate(true);
     });
   }
 
