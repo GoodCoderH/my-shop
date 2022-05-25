@@ -1,5 +1,5 @@
 import axios from "../api/axios";
-import { useReducer, useState } from "react";
+import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { Navigate } from "react-router-dom";
 
@@ -10,28 +10,15 @@ function SignIn() {
     formState: { errors },
   } = useForm();
 
-  const initialState = {
-    authenticated: false,
-    token: null,
-  };
-
-  function reducer(state, action) {
-    switch (action.type) {
-      case "SET_TOKEN":
-        return { ...state, token: action.token, authenticated: action.result };
-      default:
-        return state;
-    }
-  }
-
   const [navigate, setNavigate] = useState(false);
 
   async function onSubmit(data) {
-    await axios.post("/login", data).then((res) => {
-      const accessToken = res.data;
-      console.log(accessToken);
-      // setNavigate(true);
-    });
+    await axios
+      .post("/login", data, { withCredentials: "include" })
+      .then((res) => {
+        axios.defaults.headers.common["Authorization"] = "Bearer " + res.data;
+        // setNavigate(true);
+      });
   }
 
   if (navigate) {

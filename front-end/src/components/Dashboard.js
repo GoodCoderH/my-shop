@@ -5,7 +5,7 @@ function Dashboard() {
   const [users, setUsers] = useState("");
 
   async function getUsers() {
-    await axios.get("/users").then((res) => {
+    await axios.get("/user").then((res) => {
       setUsers(res.data);
     });
   }
