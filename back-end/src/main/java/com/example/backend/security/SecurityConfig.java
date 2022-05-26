@@ -47,9 +47,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .addFilter(corsConfig.corsFilter())
                 .addFilter(customAuthenticationFilter)
                 .authorizeRequests()
-                .antMatchers("/api/login/**", "/api/token/refresh/**", "/api/test").permitAll()
+                .antMatchers("/api/login/**", "/api/token/refresh/**", "/api/test", "/api/users","/api/role/addtouser").permitAll()
                 .antMatchers("/api/user/**").hasAnyAuthority("ROLE_USER","ROLE_ADMIN")
-                .antMatchers("/api/users/**").hasAnyAuthority("ROLE_ADMIN")
+//                .antMatchers("/api/users/**").hasAnyAuthority("ROLE_ADMIN")
                 .anyRequest().authenticated();
     }
 

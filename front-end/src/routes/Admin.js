@@ -1,11 +1,11 @@
 import { useEffect, useState } from "react";
 import axios from "../api/axios";
-import Dashboard from "../components/Dashboard";
+import Users from "../components/Users";
 
 function Admin() {
   return (
     <>
-      <Dashboard />
+      <Users />
     </>
   );
 }

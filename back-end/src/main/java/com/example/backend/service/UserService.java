@@ -42,6 +42,8 @@ public class UserService implements UserDetailsService {
         Role role = roleRepository.findByName(roleName);
 
         user.getRoles().add(role);
+        System.out.println(user.getRoles());
+        System.out.println(role.getName());
     }
 
     public User getUser(String username) {
