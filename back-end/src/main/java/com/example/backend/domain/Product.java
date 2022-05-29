@@ -1,24 +1,21 @@
 package com.example.backend.domain;
 
-import lombok.AllArgsConstructor;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
 
 @Entity
 @Getter @Setter
-@NoArgsConstructor
-public class Role {
-
-    public Role(String name) {
-        this.name = name;
-    }
+@Table(name = "products")
+public class Product {
 
     @Id @GeneratedValue
     private Long id;
 
+    @Column(nullable = false, length = 128)
     private String name;
+
+    private float price;
 
 }

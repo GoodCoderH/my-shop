@@ -1,10 +1,11 @@
-package com.example.backend.dto;
+package com.example.backend.auth;
 
 import lombok.Getter;
 import lombok.Setter;
 
 @Getter @Setter
-public class LoginRequestDto {
+public class AuthRequest {
+
     private String username;
     private String password;
 }

@@ -1,9 +1,8 @@
 package com.example.backend.security;
 
 import com.example.backend.config.CorsConfig;
-import com.example.backend.filter.CustomAuthenticationFilter;
-import com.example.backend.filter.CustomAuthorizationFilter;
-import com.example.backend.jwt.JwtProperties;
+import com.example.backend.jwt.JwtFilter;
+import com.example.backend.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -13,9 +12,10 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.http.SessionCreationPolicy;
-import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+
+import javax.servlet.http.HttpServletResponse;
 
 @Configuration
 @EnableWebSecurity
@@ -23,34 +23,14 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     private final CorsConfig corsConfig;
-    private final UserDetailsService userDetailsService;
-    private final BCryptPasswordEncoder bCryptPasswordEncoder;
-    private final JwtProperties jwtProperties;
+    private final UserRepository userRepository;
+    private final JwtFilter jwtFilter;
 
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-        auth.userDetailsService(userDetailsService).passwordEncoder(bCryptPasswordEncoder);
-    }
-
-    @Override
-    protected void configure(HttpSecurity http) throws Exception {
-        CustomAuthenticationFilter customAuthenticationFilter = new CustomAuthenticationFilter(authenticationManagerBean(), jwtProperties);
-        customAuthenticationFilter.setFilterProcessesUrl("/api/login");
-
-        http
-                .csrf().disable()
-                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-                .and()
-                .formLogin().disable()
-                .httpBasic().disable()
-                .addFilterBefore(new CustomAuthorizationFilter(jwtProperties), UsernamePasswordAuthenticationFilter.class)
-                .addFilter(corsConfig.corsFilter())
-                .addFilter(customAuthenticationFilter)
-                .authorizeRequests()
-                .antMatchers("/api/login/**", "/api/token/refresh/**", "/api/test", "/api/users","/api/role/addtouser").permitAll()
-                .antMatchers("/api/user/**").hasAnyAuthority("ROLE_USER","ROLE_ADMIN")
-//                .antMatchers("/api/users/**").hasAnyAuthority("ROLE_ADMIN")
-                .anyRequest().authenticated();
+        auth.userDetailsService(username -> userRepository.findByUsername(username)
+                .orElseThrow(() -> new UsernameNotFoundException("User " + username + " not found"))
+        );
     }
 
     @Bean
@@ -58,4 +38,28 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     public AuthenticationManager authenticationManagerBean() throws Exception {
         return super.authenticationManagerBean();
     }
+
+    @Override
+    protected void configure(HttpSecurity http) throws Exception {
+
+        http.csrf().disable();
+        http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
+
+        http.exceptionHandling().authenticationEntryPoint(
+                ((request, response, authException) -> {
+                    response.sendError(HttpServletResponse.SC_UNAUTHORIZED, authException.getMessage());
+                })
+        );
+
+        http.formLogin().disable()
+                .httpBasic().disable()
+                .addFilter(corsConfig.corsFilter())
+                .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class)
+                .authorizeRequests()
+                .antMatchers("/auth/login").permitAll()
+                .anyRequest().authenticated();
+
+    }
+
+
 }
