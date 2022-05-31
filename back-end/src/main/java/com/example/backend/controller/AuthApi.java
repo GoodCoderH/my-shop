@@ -1,30 +1,25 @@
 package com.example.backend.controller;
 
 import com.example.backend.auth.AuthRequest;
-import com.example.backend.auth.AuthResponse;
 import com.example.backend.domain.User;
 import com.example.backend.jwt.JwtUtil;
 import com.example.backend.repository.UserRepository;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.HashMap;
-import java.util.Map;
 
+import static org.springframework.http.HttpHeaders.AUTHORIZATION;
 import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 
 @RestController
@@ -68,4 +63,21 @@ public class AuthApi {
             new ObjectMapper().writeValue(response.getOutputStream(), e);
         }
     }
+
+    @GetMapping("/refreshToken")
+    public void refreshToken(HttpServletRequest request, HttpServletResponse response) {
+//
+//        String authorizationHeader = request.getHeader(AUTHORIZATION);
+//
+//        if (authorizationHeader != null && authorizationHeader.startsWith("Bearer")) {
+//            try {
+//                String refreshToken = authorizationHeader.substring("Bearer ".length());
+//                String subject = jwtUtil.getSubject(refreshToken);
+//                System.out.println(subject);
+//            } catch (Exception e) {
+//
+//            }
+//        }
+    }
+
 }

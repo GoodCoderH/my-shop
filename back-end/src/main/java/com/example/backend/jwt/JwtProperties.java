@@ -17,7 +17,7 @@ public class JwtProperties {
     @Value("${jwt.issuer}")
     private String issuer;
 
-    private final Date expirationTime = new Date(System.currentTimeMillis() + 30 * 6 * 1000);
+    private final Date accessTokenExpirationTime = new Date(System.currentTimeMillis() + 30 * 6 * 1000);
 
     private final String tokenPrefix = "Bearer ";
 

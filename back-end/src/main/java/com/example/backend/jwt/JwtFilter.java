@@ -1,8 +1,12 @@
 package com.example.backend.jwt;
 
+import com.example.backend.domain.User;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
 import org.springframework.stereotype.Component;
 import org.springframework.util.ObjectUtils;
 import org.springframework.web.filter.OncePerRequestFilter;
@@ -28,14 +32,39 @@ public class JwtFilter extends OncePerRequestFilter {
         }
         String accessToken = getAccessToken(request);
 
-        log.info("AccessToken : {}", accessToken);
-
         if (!jwtUtil.validateAccessToken(accessToken)) {
             filterChain.doFilter(request, response);
             return;
         }
 
+        setAuthenticationContext(accessToken, request);
+
+        filterChain.doFilter(request, response);
     }
+
+    private void setAuthenticationContext(String accessToken, HttpServletRequest request) {
+        UserDetails userDetails = getUserDetails(accessToken);
+
+        UsernamePasswordAuthenticationToken authentication
+                = new UsernamePasswordAuthenticationToken(userDetails, null, null);
+
+        authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
+
+        SecurityContextHolder.getContext().setAuthentication(authentication);
+    }
+
+    private UserDetails getUserDetails(String accessToken) {
+        User userDetails = new User();
+        String subject = jwtUtil.getSubject(accessToken);
+
+        log.info("getUserDetails : {}", subject);
+
+        userDetails.setUsername(subject);
+
+        return userDetails;
+
+    }
+
     private boolean hasAuthorizationHeader(HttpServletRequest request) {
         String header = request.getHeader("Authorization");
         log.info("Authorization header: {}", header);
@@ -50,7 +79,7 @@ public class JwtFilter extends OncePerRequestFilter {
     private String getAccessToken(HttpServletRequest request) {
         String header = request.getHeader("Authorization");
         String token = header.split(" ")[1].trim();
-
+        log.info("Access token: {}", token);
         return token;
     }
 }

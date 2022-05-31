@@ -15,7 +15,7 @@ import java.util.Collection;
 public class User implements UserDetails {
 
     @Id @GeneratedValue
-    @Column(name = "user_id", nullable = false)
+    @Column(name = "user_id", unique = true, nullable = false)
     private Long id;
 
     @Column(nullable = false, unique = true)
