@@ -16,9 +16,13 @@ function SignIn() {
     await axios
       .post("/login", data, { withCredentials: "include" })
       .then((res) => {
-        axios.defaults.headers.common["Authorization"] = "Bearer " + res.data;
         // setNavigate(true);
+        onLoginSuccess(res.data);
       });
+  }
+
+  function onLoginSuccess(token) {
+    axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
   }
 
   if (navigate) {
