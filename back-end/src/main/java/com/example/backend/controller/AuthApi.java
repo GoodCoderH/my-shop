@@ -13,13 +13,13 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.util.WebUtils;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-import static org.springframework.http.HttpHeaders.AUTHORIZATION;
 import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 
 @RestController
@@ -65,19 +65,10 @@ public class AuthApi {
     }
 
     @GetMapping("/refreshToken")
-    public void refreshToken(HttpServletRequest request, HttpServletResponse response) {
-//
-//        String authorizationHeader = request.getHeader(AUTHORIZATION);
-//
-//        if (authorizationHeader != null && authorizationHeader.startsWith("Bearer")) {
-//            try {
-//                String refreshToken = authorizationHeader.substring("Bearer ".length());
-//                String subject = jwtUtil.getSubject(refreshToken);
-//                System.out.println(subject);
-//            } catch (Exception e) {
-//
-//            }
-//        }
+    public void refreshToken(@CookieValue(name = "refreshToken") Cookie token) {
+
+        System.out.println(token.getValue());
+
     }
 
 }

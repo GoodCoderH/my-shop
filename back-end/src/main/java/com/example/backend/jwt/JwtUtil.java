@@ -35,9 +35,9 @@ public class JwtUtil {
                 .sign(Algorithm.HMAC512(jwtProperties.getSecret().getBytes()));
 
         Cookie cookie = new Cookie("refreshToken", refreshToken);
-        cookie.setHttpOnly(true);
-        cookie.setSecure(true);
         cookie.setPath("/");
+        cookie.setMaxAge(24 * 60 * 60);
+        cookie.setHttpOnly(true);
 
         return cookie;
     }

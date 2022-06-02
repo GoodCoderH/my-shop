@@ -14,7 +14,9 @@ function SignIn() {
 
   async function onSubmit(data) {
     await axios
-      .post("/login", data, { withCredentials: "include" })
+      .post("/login", data, {
+        withCredentials: "true",
+      })
       .then((res) => {
         // setNavigate(true);
         onLoginSuccess(res.data);

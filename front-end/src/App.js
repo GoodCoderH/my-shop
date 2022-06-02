@@ -3,6 +3,7 @@ import "./App.css";
 import Home from "./routes/Home";
 import Login from "./routes/Login";
 import Product from "./routes/Product";
+import Test from "./routes/Test";
 
 function App() {
   return (
@@ -11,6 +12,7 @@ function App() {
         <Route path="/" element={<Home />} />
         <Route path="/login" element={<Login />} />
         <Route path="/product" element={<Product />} />
+        <Route path="/test" element={<Test />} />
       </Routes>
     </BrowserRouter>
   );
