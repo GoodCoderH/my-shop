@@ -1,11 +1,15 @@
-package com.example.backend.controller;
+package com.example.backend.api;
 
+import com.auth0.jwt.exceptions.JWTVerificationException;
+import com.auth0.jwt.exceptions.SignatureGenerationException;
+import com.auth0.jwt.exceptions.SignatureVerificationException;
+import com.auth0.jwt.exceptions.TokenExpiredException;
 import com.example.backend.auth.AuthRequest;
 import com.example.backend.domain.User;
 import com.example.backend.jwt.JwtUtil;
 import com.example.backend.repository.UserRepository;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
@@ -13,13 +17,13 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.util.WebUtils;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
+import static org.springframework.http.HttpHeaders.AUTHORIZATION;
 import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 
 @RestController
@@ -42,7 +46,8 @@ public class AuthApi {
     }
 
     @PostMapping("/login")
-    public void login(@RequestBody AuthRequest authRequest, HttpServletResponse response) throws IOException {
+    public ResponseEntity<?> login(@RequestBody AuthRequest authRequest, HttpServletResponse response, @CookieValue(name = "refreshToken", required = false) Cookie cookie) throws IOException {
+
         try {
             Authentication authenticate = authenticationManager.authenticate(
                     new UsernamePasswordAuthenticationToken(authRequest.getUsername(), authRequest.getPassword())
@@ -57,17 +62,52 @@ public class AuthApi {
             response.addCookie(refreshToken);
             response.setContentType(APPLICATION_JSON_VALUE);
 
-            new ObjectMapper().writeValue(response.getOutputStream(), accessToken);
+            return ResponseEntity.ok(accessToken);
 
         } catch (BadCredentialsException e) {
-            new ObjectMapper().writeValue(response.getOutputStream(), e);
+            return ResponseEntity.badRequest().body(e.getMessage());
         }
+
     }
 
     @GetMapping("/refreshToken")
-    public void refreshToken(@CookieValue(name = "refreshToken") Cookie token) {
+    public ResponseEntity<?> refreshToken(
+            HttpServletRequest request, HttpServletResponse response,
+            @CookieValue(name = "refreshToken") Cookie cookie) {
 
-        System.out.println(token.getValue());
+        String authorizationHeader = request.getHeader(AUTHORIZATION);
+
+        if (authorizationHeader != null && authorizationHeader.startsWith("Bearer")) {
+            String header = authorizationHeader.substring("Bearer ".length());
+
+            try {
+                jwtUtil.getSubject(header);
+            } catch (TokenExpiredException e) {
+
+                String token = cookie.getValue();
+
+                if (jwtUtil.validateToken(token)) {
+                    String username = jwtUtil.getSubject(token);
+
+                    User user = userRepository.findByUsername(username).get();
+                    String accessToken = jwtUtil.generateAccessToken(user);
+
+                    System.out.println("accessToken = " + accessToken);
+
+                    response.setHeader("accessToken", accessToken);
+                    response.setContentType(APPLICATION_JSON_VALUE);
+
+                    return ResponseEntity.ok("Successfully re-issue");
+                }
+                return ResponseEntity.status(HttpStatus.FORBIDDEN).body("Please login again");
+            } catch (SignatureVerificationException e) {
+                return ResponseEntity.status(HttpStatus.FORBIDDEN).body("The token is not our token");
+            }
+
+        }
+
+        return ResponseEntity.status(HttpStatus.FORBIDDEN).body("Please login again");
+
 
     }
 

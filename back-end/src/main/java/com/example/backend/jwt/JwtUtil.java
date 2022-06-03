@@ -5,6 +5,7 @@ import com.auth0.jwt.JWTVerifier;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.interfaces.DecodedJWT;
 import com.example.backend.domain.User;
+import com.example.backend.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
@@ -18,12 +19,13 @@ import java.util.Date;
 public class JwtUtil {
 
     private final JwtProperties jwtProperties;
+    private final UserRepository userRepository;
 
     public String generateAccessToken(User user) {
 
         return JWT.create()
                 .withSubject(user.getUsername())
-                .withExpiresAt(new Date(System.currentTimeMillis() + 60 * 1000))
+                .withExpiresAt(new Date(System.currentTimeMillis() + 30000))
                 .sign(Algorithm.HMAC512(jwtProperties.getSecret().getBytes()));
     }
 
@@ -38,18 +40,17 @@ public class JwtUtil {
         cookie.setPath("/");
         cookie.setMaxAge(24 * 60 * 60);
         cookie.setHttpOnly(true);
+//        cookie.setSecure(true);
 
         return cookie;
     }
 
-    public boolean validateAccessToken(String token) {
+    public boolean validateToken(String token) {
 
         try {
             String username = getSubject(token);
-            log.info(username);
-            return true;
+            return userRepository.findByUsername(username).isPresent();
         } catch (Exception e) {
-            log.error("Error : {}", e.getMessage());
             return false;
         }
 

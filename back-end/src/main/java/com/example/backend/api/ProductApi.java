@@ -1,4 +1,4 @@
-package com.example.backend.controller;
+package com.example.backend.api;
 
 import com.example.backend.domain.Product;
 import com.example.backend.repository.ProductRepository;
