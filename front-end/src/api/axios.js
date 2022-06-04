@@ -1,9 +1,6 @@
 import axios from "axios";
+const BASE_URL = "http://localhost:8080";
 
-// export default axios.create({
-//   baseURL: "http://localhost:8080/auth",
-// });
-
-axios.defaults.baseURL = "http://localhost:8080/auth";
-
-export default axios;
+export default axios.create({
+  baseURL: BASE_URL,
+});

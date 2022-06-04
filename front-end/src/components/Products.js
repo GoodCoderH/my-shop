@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import axios from "../api/axios";
 
-function ProductList() {
+function Products() {
   const [products, setProducts] = useState();
 
   return (
@@ -19,4 +19,4 @@ function ProductList() {
     </article>
   );
 }
-export default ProductList;
+export default Products;

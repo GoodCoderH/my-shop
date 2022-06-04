@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 
-function Footer() {
+const Footer = () => {
   return (
     <footer className="w-full bg-gray-700 text-white">
       <div className="xl:px-40 pb-12 lg:px-20 md:px-10 sm:px-5 px-10">
@@ -11,21 +11,21 @@ function Footer() {
             </Link>
           </div>
           <div className="w-full sm:w-1/5 py-5 flex flex-col space-y-4">
-            <a>Home</a>
-            <a>Products</a>
-            <a>Cart</a>
+            <p>Home</p>
+            <p>Products</p>
+            <p>Cart</p>
           </div>
           <div className="w-full sm:w-1/5 py-5 flex flex-col space-y-4">
-            <a>About Us</a>
-            <a>Responsibilities</a>
-            <a>Out Services</a>
-            <a>Contact</a>
+            <p>About Us</p>
+            <p>Responsibilities</p>
+            <p>Out Services</p>
+            <p>Contact</p>
           </div>
           <div className="w-full sm:w-1/5 py-5 flex flex-col space-y-4">
-            <a>Disclaimer</a>
-            <a>Testimonials</a>
-            <a>Privacy Policy</a>
-            <a>Terms of Service</a>
+            <p>Disclaimer</p>
+            <p>Testimonials</p>
+            <p>Privacy Policy</p>
+            <p>Terms of Service</p>
           </div>
         </div>
         <div className="pt-2">
@@ -34,6 +34,6 @@ function Footer() {
       </div>
     </footer>
   );
-}
+};
 
 export default Footer;

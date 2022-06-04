@@ -2,7 +2,7 @@ import Footer from "../components/Footer";
 import HeroSection from "../components/HeroSection";
 import Navbar from "../components/Navbar";
 
-function Home() {
+const Home = () => {
   return (
     <>
       <Navbar />
@@ -10,6 +10,6 @@ function Home() {
       <Footer />
     </>
   );
-}
+};
 
 export default Home;

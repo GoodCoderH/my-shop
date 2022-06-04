@@ -1,7 +1,7 @@
 import SignIn from "../components/SignIn";
 
-function Login() {
+const Login = () => {
   return <SignIn />;
-}
+};
 
 export default Login;

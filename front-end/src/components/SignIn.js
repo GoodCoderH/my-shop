@@ -3,7 +3,7 @@ import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { Navigate } from "react-router-dom";
 
-function SignIn() {
+const SignIn = () => {
   const {
     register,
     handleSubmit,
@@ -12,23 +12,23 @@ function SignIn() {
 
   const [navigate, setNavigate] = useState(false);
 
-  async function onSubmit(data) {
+  const onSubmit = async (data) => {
     await axios
-      .post("/login", data, {
+      .post("/auth/login", data, {
         withCredentials: "true",
       })
       .then((res) => {
-        // setNavigate(true);
+        setNavigate(true);
         onLoginSuccess(res.data);
       });
-  }
+  };
 
-  function onLoginSuccess(token) {
+  const onLoginSuccess = (token) => {
     axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
-  }
+  };
 
   if (navigate) {
-    return <Navigate to="/" />;
+    return <Navigate to="/admin" />;
   }
 
   return (
@@ -70,6 +70,6 @@ function SignIn() {
       </form>
     </main>
   );
-}
+};
 
 export default SignIn;

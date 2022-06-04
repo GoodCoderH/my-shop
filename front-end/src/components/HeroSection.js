@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 
-function HeroSection() {
+const HeroSection = () => {
   return (
     <main className="w-screen h-screen pt-40 pb-40 flex justify-center items-center">
       <div className="lg:flex hidden">
@@ -30,5 +30,5 @@ function HeroSection() {
       </div>
     </main>
   );
-}
+};
 export default HeroSection;
