@@ -75,16 +75,29 @@ public class AuthApi {
             HttpServletRequest request, HttpServletResponse response,
             @CookieValue(name = "refreshToken") Cookie cookie) {
 
+        Cookie[] cookies = request.getCookies();
+
+        for (Cookie cookie1 : cookies) {
+            System.out.println("cookie1 = " + cookie1.getValue());
+        }
+
         String authorizationHeader = request.getHeader(AUTHORIZATION);
+
+        System.out.println("refreshToken 진입");
 
         if (authorizationHeader != null && authorizationHeader.startsWith("Bearer")) {
             String header = authorizationHeader.substring("Bearer ".length());
 
+            System.out.println("if 진입");
+
             try {
                 jwtUtil.getSubject(header);
             } catch (TokenExpiredException e) {
+                System.out.println("token expired");
 
                 String token = cookie.getValue();
+
+                System.out.println("token = " + token);
 
                 if (jwtUtil.validateToken(token)) {
                     String username = jwtUtil.getSubject(token);
@@ -99,6 +112,7 @@ public class AuthApi {
 
                     return ResponseEntity.ok("Successfully re-issue");
                 }
+                System.out.println("validate fail");
                 return ResponseEntity.status(HttpStatus.FORBIDDEN).body("Please login again");
             } catch (SignatureVerificationException e) {
                 return ResponseEntity.status(HttpStatus.FORBIDDEN).body("The token is not our token");

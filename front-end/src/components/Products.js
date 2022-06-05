@@ -1,8 +1,34 @@
 import { useEffect, useState } from "react";
 import axios from "../api/axios";
+import useRefreshToken from "../hooks/useRefreshToken";
 
 function Products() {
   const [products, setProducts] = useState();
+  const refresh = useRefreshToken();
+
+  useEffect(() => {
+    let isMounted = true;
+    const controller = new AbortController();
+
+    const getProducts = async () => {
+      try {
+        const response = await axios.get("/products", {
+          signal: controller.signal,
+        });
+        console.log(response.data);
+        isMounted && setProducts(response.data);
+      } catch (err) {
+        console.log(err);
+      }
+    };
+
+    getProducts();
+
+    return () => {
+      isMounted = false;
+      controller.abort();
+    };
+  }, []);
 
   return (
     <article>
@@ -16,6 +42,7 @@ function Products() {
       ) : (
         <p>No products to display</p>
       )}
+      <button onClick={() => refresh()}>refresh</button>
     </article>
   );
 }

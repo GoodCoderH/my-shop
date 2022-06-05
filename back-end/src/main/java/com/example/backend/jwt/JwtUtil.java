@@ -25,7 +25,7 @@ public class JwtUtil {
 
         return JWT.create()
                 .withSubject(user.getUsername())
-                .withExpiresAt(new Date(System.currentTimeMillis() + 60 * 1000))
+                .withExpiresAt(new Date(System.currentTimeMillis() + 1))
                 .sign(Algorithm.HMAC512(jwtProperties.getSecret().getBytes()));
     }
 
