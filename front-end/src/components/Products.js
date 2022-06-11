@@ -1,34 +1,33 @@
 import { useEffect, useState } from "react";
 import axios from "../api/axios";
-import useRefreshToken from "../hooks/useRefreshToken";
 
 function Products() {
   const [products, setProducts] = useState();
-  const refresh = useRefreshToken();
 
   useEffect(() => {
-    let isMounted = true;
-    const controller = new AbortController();
-
-    const getProducts = async () => {
-      try {
-        const response = await axios.get("/products", {
-          signal: controller.signal,
+    const request = async () => {
+      await axios
+        .get("/auth/refreshToken", { withCredentials: "true" })
+        .then((res) => {
+          requestSuccess(res.data);
+          console.log(`accessToken token ${res.data}`);
         });
-        console.log(response.data);
-        isMounted && setProducts(response.data);
-      } catch (err) {
-        console.log(err);
-      }
     };
 
-    getProducts();
-
-    return () => {
-      isMounted = false;
-      controller.abort();
-    };
+    request();
   }, []);
+
+  const requestSuccess = (token) => {
+    axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
+
+    const products = async () => {
+      await axios.get("/products", { withCredentials: "true" }).then((res) => {
+        setProducts(res.data);
+      });
+    };
+
+    products();
+  };
 
   return (
     <article>
@@ -42,7 +41,6 @@ function Products() {
       ) : (
         <p>No products to display</p>
       )}
-      <button onClick={() => refresh()}>refresh</button>
     </article>
   );
 }

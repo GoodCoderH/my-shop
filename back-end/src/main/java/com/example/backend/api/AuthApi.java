@@ -9,6 +9,7 @@ import com.example.backend.domain.User;
 import com.example.backend.jwt.JwtUtil;
 import com.example.backend.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -26,6 +27,7 @@ import java.io.IOException;
 import static org.springframework.http.HttpHeaders.AUTHORIZATION;
 import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 
+@Slf4j
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/auth")
@@ -75,53 +77,24 @@ public class AuthApi {
             HttpServletRequest request, HttpServletResponse response,
             @CookieValue(name = "refreshToken") Cookie cookie) {
 
-        Cookie[] cookies = request.getCookies();
+        log.info("Refresh Token={}", cookie.getValue());
 
-        for (Cookie cookie1 : cookies) {
-            System.out.println("cookie1 = " + cookie1.getValue());
+        String refreshToken = cookie.getValue();
+
+        try {
+            String username = jwtUtil.getSubject(refreshToken);
+            log.info("username={}",username);
+
+            User user = userRepository.findByUsername(username).get();
+
+            String accessToken = jwtUtil.generateAccessToken(user);
+            response.setHeader("accessToken", accessToken);
+            response.setContentType(APPLICATION_JSON_VALUE);
+            return ResponseEntity.ok(accessToken);
+        } catch (Exception e) {
+            log.error(e.getMessage());
+            return ResponseEntity.status(403).body("Please login again");
         }
-
-        String authorizationHeader = request.getHeader(AUTHORIZATION);
-
-        System.out.println("refreshToken 진입");
-
-        if (authorizationHeader != null && authorizationHeader.startsWith("Bearer")) {
-            String header = authorizationHeader.substring("Bearer ".length());
-
-            System.out.println("if 진입");
-
-            try {
-                jwtUtil.getSubject(header);
-            } catch (TokenExpiredException e) {
-                System.out.println("token expired");
-
-                String token = cookie.getValue();
-
-                System.out.println("token = " + token);
-
-                if (jwtUtil.validateToken(token)) {
-                    String username = jwtUtil.getSubject(token);
-
-                    User user = userRepository.findByUsername(username).get();
-                    String accessToken = jwtUtil.generateAccessToken(user);
-
-                    System.out.println("accessToken = " + accessToken);
-
-                    response.setHeader("accessToken", accessToken);
-                    response.setContentType(APPLICATION_JSON_VALUE);
-
-                    return ResponseEntity.ok("Successfully re-issue");
-                }
-                System.out.println("validate fail");
-                return ResponseEntity.status(HttpStatus.FORBIDDEN).body("Please login again");
-            } catch (SignatureVerificationException e) {
-                return ResponseEntity.status(HttpStatus.FORBIDDEN).body("The token is not our token");
-            }
-
-        }
-
-        return ResponseEntity.status(HttpStatus.FORBIDDEN).body("Please login again");
-
 
     }
 

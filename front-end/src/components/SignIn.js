@@ -28,7 +28,7 @@ const SignIn = () => {
   };
 
   if (navigate) {
-    return <Navigate to="/admin" />;
+    return <Navigate to="/" />;
   }
 
   return (
