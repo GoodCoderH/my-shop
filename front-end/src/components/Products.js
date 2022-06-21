@@ -30,7 +30,7 @@ function Products() {
   };
 
   return (
-    <article>
+    <div className="h-screen pt-12">
       <h2>Product List</h2>
       {products?.length ? (
         <ul>
@@ -41,7 +41,7 @@ function Products() {
       ) : (
         <p>No products to display</p>
       )}
-    </article>
+    </div>
   );
 }
 export default Products;
