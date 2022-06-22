@@ -17,7 +17,7 @@ const HeroSection = () => {
       </div>
 
       <div className="flex flex-col p-11">
-        <h1 className="font-extralight text-6xl hero">
+        <h1 className="font-extralight text-main text-6xl hero">
           Get the
           <br /> new products!
         </h1>

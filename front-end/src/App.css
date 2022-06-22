@@ -2,18 +2,8 @@
 @tailwind components;
 @tailwind utilities;
 
-@import url("https://fonts.googleapis.com/css2?family=Barlow:wght@100;300&family=Fredericka+the+Great&display=swap");
-
-.my-shop {
-  font-family: "Fredericka the Great", cursive;
-}
+@import url("https://fonts.googleapis.com/css2?family=Comfortaa:wght@400;700&display=swap");
 
 body {
-  font-family: "Barlow", sans-serif;
-}
-
-.hero,
-li {
-  font-family: "Barlow", sans-serif;
-  font-weight: 300;
+  font-family: "Comfortaa", cursive;
 }
