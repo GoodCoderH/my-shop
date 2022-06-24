@@ -56,7 +56,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .addFilter(corsConfig.corsFilter())
                 .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class)
                 .authorizeRequests()
-                .antMatchers("/auth/refreshToken").permitAll()
+                .antMatchers("/auth/refreshToken", "/products").permitAll()
                 .antMatchers("/auth/login").anonymous()
                 .anyRequest().authenticated();
 

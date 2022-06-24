@@ -16,6 +16,8 @@ public class Product {
     @Column(nullable = false, length = 128)
     private String name;
 
+    private String url;
+
     private float price;
 
 }

@@ -7,9 +7,11 @@ const Footer = () => {
         <div className="w-full pt-12 flex flex-col sm:flex-row space-y-2 justify-start">
           <div className="w-full sm:w-2/5 mr-80 flex flex-col space-y-4">
             <Link to="/">
-              <h1 className="my-shop pl-4 py-4 text-3xl">SHOV</h1>
+              <img src="/images/SHOV_white.png" alt="logo" />
             </Link>
-            <p>This is not real webstore just my side project</p>
+            <p className="py-5">
+              This is not real webstore just my side project
+            </p>
           </div>
           <div className="w-full sm:w-1/5 py-5 flex flex-col space-y-4">
             <p>Home</p>

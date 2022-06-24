@@ -33,7 +33,7 @@ public class JwtUtil {
 
         String refreshToken = JWT.create()
                 .withSubject(user.getUsername())
-                .withExpiresAt(new Date(System.currentTimeMillis() + 180 * 1000))
+                .withExpiresAt(new Date(System.currentTimeMillis() + 600 * 1000))
                 .sign(Algorithm.HMAC512(jwtProperties.getSecret().getBytes()));
 
         Cookie cookie = new Cookie("refreshToken", refreshToken);

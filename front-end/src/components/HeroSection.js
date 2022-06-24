@@ -7,26 +7,22 @@ const HeroSection = () => {
         <img
           className="h-96 w-100 m-5 rounded-3xl shadow-md"
           alt="harvest"
-          src={
-            "https://images.unsplash.com/photo-1581578017306-7334b15283df?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=387&q=80"
-          }
+          src="/images/harvest.jpg"
         />
         <img
-          className="h-1106 w-80 m-5 rounded-3xl shadow-md"
+          className="w-80 m-5 rounded-3xl shadow-md"
           alt="carrots"
-          src={
-            "https://images.unsplash.com/photo-1627798133922-270bb80af5ed?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=387&q=80"
-          }
+          src="/images/carrots.jpg"
         />
       </div>
 
       <div className="flex flex-col p-11">
         <h1 className="font-extralight text-main text-6xl hero">
-          Get the
+          Get the fresh
           <br />
-          Fresh vegetables
+          vegetables and
           <br />
-          And fruits
+          fruits
         </h1>
         <Link
           className="w-48 mt-10 bg-transparent border hero border-main text-main hover:bg-main hover:text-white text-center py-2 px-4 rounded"

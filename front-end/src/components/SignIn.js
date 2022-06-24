@@ -36,7 +36,7 @@ const SignIn = () => {
       <form onSubmit={handleSubmit(onSubmit)}>
         <div className="bg-white w-96 p-6 rounded shadow-sm">
           <div className="flex items-center flex-col justify-center mb-4">
-            <h1 className="my-shop text-3xl">MY-SHOP</h1>
+            <img src="/images/SHOV.png" alt="logo" />
             {errors.username && <span role="alert">Username is required</span>}
             {errors.password && <span role="alert">Password is required</span>}
           </div>
@@ -62,7 +62,7 @@ const SignIn = () => {
 
           <button
             type="submit"
-            className="bg-blue-500 w-full text-gray-100 py-2 rounded hover:bg-blue-600 transition-colors"
+            className="bg-white w-full border border-main text-main py-2 rounded hover:bg-main hover:text-white transition-colors"
           >
             Login
           </button>
