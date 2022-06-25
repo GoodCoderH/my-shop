@@ -1,16 +1,13 @@
 package com.example.backend.api;
 
-import com.auth0.jwt.exceptions.JWTVerificationException;
-import com.auth0.jwt.exceptions.SignatureGenerationException;
-import com.auth0.jwt.exceptions.SignatureVerificationException;
-import com.auth0.jwt.exceptions.TokenExpiredException;
 import com.example.backend.auth.AuthRequest;
+import com.example.backend.domain.Product;
 import com.example.backend.domain.User;
 import com.example.backend.jwt.JwtUtil;
-import com.example.backend.repository.UserRepository;
+import com.example.backend.repository.ProductRepository;
+import com.example.backend.service.UserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
@@ -22,9 +19,9 @@ import org.springframework.web.bind.annotation.*;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.io.File;
 import java.io.IOException;
 
-import static org.springframework.http.HttpHeaders.AUTHORIZATION;
 import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 
 @Slf4j
@@ -35,7 +32,7 @@ public class AuthApi {
 
     private final AuthenticationManager authenticationManager;
     private final BCryptPasswordEncoder passwordEncoder;
-    private final UserRepository userRepository;
+    private final UserService userService;
     private final JwtUtil jwtUtil;
 
     @PostMapping("/create")
@@ -43,7 +40,7 @@ public class AuthApi {
         User user = new User();
         user.setUsername(authRequest.getUsername());
         user.setPassword(passwordEncoder.encode(authRequest.getPassword()));
-        User savedUser = userRepository.save(user);
+        User savedUser = userService.save(user);
         return ResponseEntity.ok(savedUser);
     }
 
@@ -85,7 +82,7 @@ public class AuthApi {
             String username = jwtUtil.getSubject(refreshToken);
             log.info("username={}",username);
 
-            User user = userRepository.findByUsername(username).get();
+            User user = userService.findByUsername(username);
 
             String accessToken = jwtUtil.generateAccessToken(user);
             response.setHeader("accessToken", accessToken);
