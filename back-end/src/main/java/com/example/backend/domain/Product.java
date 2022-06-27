@@ -4,7 +4,6 @@ import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.*;
-import java.sql.Blob;
 
 @Entity
 @Getter @Setter
@@ -16,6 +15,8 @@ public class Product {
 
     @Column(nullable = false, length = 128)
     private String name;
+
+    private String url;
 
     private float price;
 
