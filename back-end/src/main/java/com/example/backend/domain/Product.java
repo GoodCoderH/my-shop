@@ -20,4 +20,6 @@ public class Product {
 
     private float price;
 
+    private String type;
+
 }

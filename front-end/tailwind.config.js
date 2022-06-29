@@ -4,7 +4,8 @@ module.exports = {
     extend: {
       colors: {
         main: "#295e52",
-        skeleten: "#ccc",
+        skeleten: "#ddd",
+        skeletenWrapper: "#F2F2F2",
       },
     },
   },
@@ -15,5 +16,5 @@ module.exports = {
       inset: ["group-focus"],
     },
   },
-  plugins: [],
+  plugins: [require("@tailwindcss/aspect-ratio")],
 };
