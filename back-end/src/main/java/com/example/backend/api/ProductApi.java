@@ -1,12 +1,10 @@
 package com.example.backend.api;
 
 import com.example.backend.domain.Product;
-import com.example.backend.repository.ProductRepository;
+import com.example.backend.service.ProductService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.net.URI;
 import java.util.List;
 
 @RestController
@@ -14,18 +12,16 @@ import java.util.List;
 @RequiredArgsConstructor
 public class ProductApi {
 
-    private final ProductRepository productRepository;
+    private final ProductService productService;
 
     @GetMapping
     public List<Product> list() {
-        return productRepository.findAll();
+        return productService.findAll();
     }
 
-    @PostMapping
-    public ResponseEntity<Product> create(@RequestBody Product product) {
-        Product savedProduct = productRepository.save(product);
-        URI productURI = URI.create("/products/" + savedProduct.getName());
-
-        return ResponseEntity.created(productURI).body(savedProduct);
+    @GetMapping("/{name}")
+    public Product product(@PathVariable String name) {
+        return productService.findByName(name);
     }
+
 }
