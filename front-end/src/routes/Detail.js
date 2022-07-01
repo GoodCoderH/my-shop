@@ -6,21 +6,31 @@ import axios from "../api/axios";
 
 const Detail = () => {
   const [count, setCount] = useState(0);
+  const [price, setPrice] = useState();
+  const [img, setImg] = useState();
 
   const { name } = useParams();
 
-  const getProduct = async () => {
+  const getImg = async () => {
     await axios
       .get(`/products/${name}`, { withCredentials: "true" })
-      .then((res) => console.log(res.data));
+      .then((res) => setImg(res.data.url));
+  };
+
+  const getPrice = async () => {
+    await axios
+      .get(`/products/${name}`, { withCredentials: "true" })
+      .then((res) => setPrice(res.data.price));
   };
 
   useEffect(() => {
-    getProduct();
+    getImg();
+    getPrice();
   }, []);
 
   const addCount = () => {
     setCount((prev) => prev + 1);
+    setPrice();
   };
 
   const minusCount = () => {
@@ -36,16 +46,10 @@ const Detail = () => {
         <div className="flex justify-center items-center lg:flex-row flex-col gap-8">
           <div className=" w-full sm:w-96 md:w-8/12 lg:w-6/12 items-center">
             <h2 className="font-semibold lg:text-4xl text-3xl lg:leading-9 leading-7 text-gray-800 mt-4">
-              Product Name
+              {name.toUpperCase()}
             </h2>
-            {/* <p className=" font-normal text-base leading-6 text-gray-600 mt-7">
-              It is a long established fact that a reader will be distracted by
-              the readable content of a page when looking at its layout. The
-              point of using. Lorem Ipsum is that it has a more-or-less normal
-              distribution of letters.
-            </p> */}
             <p className=" font-semibold lg:text-2xl text-xl lg:leading-6 leading-5 mt-6 ">
-              $ 790.89
+              $ {price}
             </p>
             <div className="lg:mt-11 mt-10">
               <div className="flex flex-row justify-between">
@@ -76,15 +80,12 @@ const Detail = () => {
                 </div>
               </div>
               <button className="focus:outline-none rounded-md hover:text-white hover:bg-main focus:ring-offset-2 font-medium text-base leading-4 text-black bg-skeletenWrapper w-full py-5 lg:mt-12 mt-6">
-                Add to shopping bag
+                Add to cart
               </button>
             </div>
           </div>
           <div className=" w-full lg:w-3/12 bg-gray-100 flex justify-center items-center">
-            <img
-              src="https://images.unsplash.com/photo-1587411768515-eeac0647deed?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=580&q=80"
-              alt="Wooden Chair Previw"
-            />
+            <img className="w-full rounded-xl" src={img} alt={img} />
           </div>
         </div>
       </div>
