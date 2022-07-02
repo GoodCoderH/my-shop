@@ -1,9 +1,6 @@
 import Footer from "../components/Footer";
 import Navbar from "../components/Navbar";
 import { Link } from "react-router-dom";
-import BaseSkeleton from "../components/BaseSkeleton";
-import { useEffect, useState } from "react";
-import axios from "../api/axios";
 
 const Home = () => {
   return (

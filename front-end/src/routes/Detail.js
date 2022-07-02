@@ -84,7 +84,7 @@ const Detail = () => {
               </button>
             </div>
           </div>
-          <div className=" w-full lg:w-3/12 bg-gray-100 flex justify-center items-center">
+          <div className=" w-96 lg:w-3/12 bg-gray-100 flex justify-center items-center">
             <img className="w-full rounded-xl" src={img} alt={img} />
           </div>
         </div>

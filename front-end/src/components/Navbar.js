@@ -115,6 +115,18 @@ const Navbar = () => {
             CART
           </NavLink>
         </li>
+        <li className="mx-4 md:my-0 mt-5">
+          <NavLink
+            to="/delivery"
+            className={(data) =>
+              data.isActive
+                ? "border-b-2 border-main text-main font-bold md:pb-11"
+                : "text-main font-bold"
+            }
+          >
+            DELIVERY
+          </NavLink>
+        </li>
       </ul>
     </nav>
   );
