@@ -5,8 +5,9 @@ import { useParams } from "react-router-dom";
 import axios from "../api/axios";
 
 const Detail = () => {
-  const [count, setCount] = useState(0);
+  const [count, setCount] = useState(1);
   const [price, setPrice] = useState();
+  const [quantity, setQuantity] = useState();
   const [img, setImg] = useState();
 
   const { name } = useParams();
@@ -23,19 +24,27 @@ const Detail = () => {
       .then((res) => setPrice(res.data.price));
   };
 
+  const initPrice = async () => {
+    await axios
+      .get(`/products/${name}`, { withCredentials: "true" })
+      .then((res) => setQuantity(res.data.price));
+  };
+
   useEffect(() => {
     getImg();
     getPrice();
+    initPrice();
   }, []);
 
   const addCount = () => {
     setCount((prev) => prev + 1);
-    setPrice();
+    setPrice((prev) => prev + quantity);
   };
 
   const minusCount = () => {
     if (count > 0) {
       setCount((prev) => prev - 1);
+      setPrice((prev) => prev - quantity);
     }
   };
 

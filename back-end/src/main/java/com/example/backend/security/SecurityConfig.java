@@ -26,13 +26,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     private final UserRepository userRepository;
     private final JwtFilter jwtFilter;
 
-    @Override
-    protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-        auth.userDetailsService(username -> userRepository.findByUsername(username)
-                .orElseThrow(() -> new UsernameNotFoundException("User " + username + " not found"))
-        );
-    }
-
     @Bean
     @Override
     public AuthenticationManager authenticationManagerBean() throws Exception {
@@ -56,7 +49,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .addFilter(corsConfig.corsFilter())
                 .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class)
                 .authorizeRequests()
-                .antMatchers("/auth/refreshToken", "/products/**", "/auth/initProduct").permitAll()
+                .antMatchers("/auth/refreshToken").permitAll()
                 .antMatchers("/auth/login").anonymous()
                 .anyRequest().authenticated();
 
