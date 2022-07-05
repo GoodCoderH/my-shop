@@ -74,20 +74,20 @@ public class TokenProvider {
         } catch (SecurityException | MalformedJwtException exception) {
             log.info("Token has wrong jwt claims.");
         } catch (ExpiredJwtException e) {
-            log.info("Token has expired");
+            log.info("Token has expired.");
         } catch (UnsupportedJwtException e) {
-            log.info("Token is not supported");
+            log.info("Token is not supported.");
         } catch (IllegalArgumentException e) {
-            log.info("Invalid token");
+            log.info("Invalid token.");
         }
         return false;
     }
 
-    public Authentication authentication(String accessToken) {
+    public Authentication getAuthentication(String accessToken) {
         Claims claims = parseClaims(accessToken);
 
         if (claims.get(AUTHORITIES_KEY) == null) {
-            throw new RuntimeException("No Authorities key");
+            throw new RuntimeException("No Authorities key.");
         }
 
         Collection<? extends GrantedAuthority> authorities =

@@ -1,0 +1,30 @@
+### Create user
+POST http://localhost:8080/auth/signup
+Content-Type: application/json
+
+{
+  "username": "test",
+  "password": "1234"
+}
+
+### Login
+POST http://localhost:8080/auth/login
+Content-Type: application/json
+
+{
+  "username": "test",
+  "password": "1234"
+}
+
+### GetUserInfo
+GET http://localhost:8080/user/info
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiIxIiwiYXV0aCI6IlJPTEVfVVNFUiIsImV4cCI6MTY1Njk5MTk5OX0.D4FNldae0Nl4dt1Jcp68EUJnfv9rA2HpAJJODLCH0668miEJaRBNz_Yf4Z-8O5JTlfN4F0YPHSJoM5HKV0G9PQ
+
+### Reissue
+POST http://localhost:8080/auth/reissue
+Content-Type: application/json
+
+{
+  "accessToken": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiIxIiwiYXV0aCI6IlJPTEVfVVNFUiIsImV4cCI6MTY1Njk5MTk5OX0.D4FNldae0Nl4dt1Jcp68EUJnfv9rA2HpAJJODLCH0668miEJaRBNz_Yf4Z-8O5JTlfN4F0YPHSJoM5HKV0G9PQ",
+  "refreshToken": "eyJhbGciOiJIUzUxMiJ9.eyJleHAiOjE2NTcwNzY1OTl9.t6VF03ZQomSAhFo-A5mTE8NC3pEyDF2-wzPXcx0gyCQeOqYd3cdulKcHP_iQhEG69DGpxl9OsVYKkqgb_9jROA"
+}

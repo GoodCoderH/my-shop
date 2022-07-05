@@ -1,8 +1,11 @@
 package com.example.backend.service;
 
 import com.example.backend.domain.User;
+import com.example.backend.jwt.UserResponse;
 import com.example.backend.repository.UserRepository;
+import com.example.backend.security.SecurityUtil;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
@@ -26,4 +29,15 @@ public class UserService {
         return userRepository.findAll();
     }
 
+    public UserResponse getMyInfo() {
+        return userRepository.findById(SecurityUtil.getCurrentUserId())
+                .map(UserResponse::of)
+                .orElseThrow(() -> new RuntimeException("Login user information is missing."));
+    }
+
+    public UserResponse getUserInfo(String username) {
+        return userRepository.findByUsername(username)
+                .map(UserResponse::of)
+                .orElseThrow(() -> new RuntimeException("User information is missing."));
+    }
 }

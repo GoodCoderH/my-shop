@@ -1,59 +1,47 @@
 package com.example.backend.security;
 
-import com.example.backend.config.CorsConfig;
-import com.example.backend.jwt.JwtFilter;
-import com.example.backend.repository.UserRepository;
+import com.example.backend.jwt.JwtAccessDeniedHandler;
+import com.example.backend.jwt.JwtAuthenticationEntryPoint;
+import com.example.backend.jwt.TokenProvider;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
-import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
-import org.springframework.security.config.http.SessionCreationPolicy;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
-import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
-import javax.servlet.http.HttpServletResponse;
-
-@Configuration
 @EnableWebSecurity
 @RequiredArgsConstructor
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
-    private final CorsConfig corsConfig;
-    private final UserRepository userRepository;
-    private final JwtFilter jwtFilter;
+    private final TokenProvider tokenProvider;
+    private final JwtAuthenticationEntryPoint jwtAuthenticationEntryPoint;
+    private final JwtAccessDeniedHandler jwtAccessDeniedHandler;
 
     @Bean
-    @Override
-    public AuthenticationManager authenticationManagerBean() throws Exception {
-        return super.authenticationManagerBean();
+    public PasswordEncoder passwordEncoder() {
+        return new BCryptPasswordEncoder();
     }
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
+        http.csrf().disable()
+                .exceptionHandling()
+                .authenticationEntryPoint(jwtAuthenticationEntryPoint)
+                .accessDeniedHandler(jwtAccessDeniedHandler)
 
-        http.csrf().disable();
-        http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
+                .and()
+                .headers()
+                .frameOptions()
+                .sameOrigin()
 
-        http.exceptionHandling().authenticationEntryPoint(
-                ((request, response, authException) -> {
-                    response.sendError(HttpServletResponse.SC_UNAUTHORIZED, authException.getMessage());
-                })
-        );
-
-        http.formLogin().disable()
-                .httpBasic().disable()
-                .addFilter(corsConfig.corsFilter())
-                .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class)
+                .and()
                 .authorizeRequests()
-                .antMatchers("/auth/refreshToken").permitAll()
-                .antMatchers("/auth/login").anonymous()
-                .anyRequest().authenticated();
+                .antMatchers("/auth/**").permitAll()
+                .anyRequest().authenticated()
 
+                .and()
+                .apply(new JwtSecurityConfig(tokenProvider));
     }
-
-
 }
