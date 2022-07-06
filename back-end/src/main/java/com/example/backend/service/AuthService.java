@@ -13,6 +13,10 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.servlet.http.Cookie;
+import java.util.HashMap;
+import java.util.Map;
+
 
 @Service
 @RequiredArgsConstructor
@@ -44,7 +48,7 @@ public class AuthService {
 
         RefreshToken refreshToken = new RefreshToken();
         refreshToken.setKey(authentication.getName());
-        refreshToken.setValue(token.getRefreshToken());
+        refreshToken.setValue(token.getRefreshToken().getValue());
 
         refreshTokenRepository.save(refreshToken);
 
@@ -69,7 +73,7 @@ public class AuthService {
 
         Token token = tokenProvider.generateToken(authentication);
 
-        RefreshToken newRefreshToken = refreshToken.updateValue(token.getRefreshToken());
+        RefreshToken newRefreshToken = refreshToken.updateValue(token.getRefreshToken().getValue());
         refreshTokenRepository.save(newRefreshToken);
 
         return token;

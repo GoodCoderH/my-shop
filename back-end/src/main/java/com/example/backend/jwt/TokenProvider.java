@@ -15,6 +15,7 @@ import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 
+import javax.servlet.http.Cookie;
 import java.security.Key;
 import java.util.Arrays;
 import java.util.Collection;
@@ -62,7 +63,12 @@ public class TokenProvider {
         token.setGrantType(BEARER_TYPE);
         token.setAccessToken(accessToken);
         token.setAccessTokenExpiresIn(accessTokenExpiresIn.getTime());
-        token.setRefreshToken(refreshToken);
+
+        Cookie cookie = new Cookie("refreshToken", refreshToken);
+        cookie.setHttpOnly(true);
+        cookie.setPath("/");
+
+        token.setRefreshToken(cookie);
 
         return token;
     }

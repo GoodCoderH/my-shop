@@ -3,28 +3,43 @@ POST http://localhost:8080/auth/signup
 Content-Type: application/json
 
 {
-  "username": "test",
+  "username": "user",
   "password": "1234"
 }
 
-### Login
+### Login user
 POST http://localhost:8080/auth/login
 Content-Type: application/json
 
 {
-  "username": "test",
+  "username": "user",
+  "password": "1234"
+}
+
+### Login admin
+POST http://localhost:8080/auth/login
+Content-Type: application/json
+
+{
+  "username": "admin",
   "password": "1234"
 }
 
 ### GetUserInfo
 GET http://localhost:8080/user/info
-Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiIxIiwiYXV0aCI6IlJPTEVfVVNFUiIsImV4cCI6MTY1Njk5MTk5OX0.D4FNldae0Nl4dt1Jcp68EUJnfv9rA2HpAJJODLCH0668miEJaRBNz_Yf4Z-8O5JTlfN4F0YPHSJoM5HKV0G9PQ
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiIyIiwiYXV0aCI6IlJPTEVfVVNFUiIsImV4cCI6MTY1NzA4NTgxNn0.3iLmdKv1wdEain12CU20o17xJpyFbtCZJqQhoCN9Ee6eiszpIU43sYfb7xOtvaxkJGs7s1FBixDIzB_SSoZvhQ
+
+### GetAdminInfo
+GET http://localhost:8080/user/admin
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiIyIiwiYXV0aCI6IlJPTEVfVVNFUiIsImV4cCI6MTY1NzA4NTgxNn0.3iLmdKv1wdEain12CU20o17xJpyFbtCZJqQhoCN9Ee6eiszpIU43sYfb7xOtvaxkJGs7s1FBixDIzB_SSoZvhQ
+
+
 
 ### Reissue
 POST http://localhost:8080/auth/reissue
 Content-Type: application/json
 
 {
-  "accessToken": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiIxIiwiYXV0aCI6IlJPTEVfVVNFUiIsImV4cCI6MTY1Njk5MTk5OX0.D4FNldae0Nl4dt1Jcp68EUJnfv9rA2HpAJJODLCH0668miEJaRBNz_Yf4Z-8O5JTlfN4F0YPHSJoM5HKV0G9PQ",
-  "refreshToken": "eyJhbGciOiJIUzUxMiJ9.eyJleHAiOjE2NTcwNzY1OTl9.t6VF03ZQomSAhFo-A5mTE8NC3pEyDF2-wzPXcx0gyCQeOqYd3cdulKcHP_iQhEG69DGpxl9OsVYKkqgb_9jROA"
+  "accessToken": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiIxIiwiYXV0aCI6IlJPTEVfVVNFUiIsImV4cCI6MTY1NzA4NDM0OH0.BTFwBkKUxvG_PPeY3erJBOXSsBDrHibD8X3XkH7d9Uk0ZyChdmmShMSf4sgBJWdmgRJiQj7Dor6oCzD_yWRI6A",
+  "refreshToken": "eyJhbGciOiJIUzUxMiJ9.eyJleHAiOjE2NTcxNjg5NDh9.T6QiW3Db0HG2PYCKAfIWv6l8T57l80caPkwg3H4PgvaW1jSBAWhq7qRkCqlvWGaT_0Q7u4907uIbBefM4sO1vQ"
 }

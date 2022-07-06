@@ -25,4 +25,10 @@ public class UserController {
     public ResponseEntity<UserResponse> getUserInfo(@PathVariable String username) {
         return ResponseEntity.ok(userService.getUserInfo(username));
     }
+    @GetMapping("/admin")
+    public String testAdmin() {
+        return "ok";
+    }
+
+
 }

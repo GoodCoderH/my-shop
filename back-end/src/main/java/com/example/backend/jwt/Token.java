@@ -1,15 +1,15 @@
 package com.example.backend.jwt;
 
-import lombok.AllArgsConstructor;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.Setter;
+
+import javax.servlet.http.Cookie;
 
 @Getter @Setter
 public class Token {
 
     private String grantType;
     private String accessToken;
-    private String refreshToken;
+    private Cookie refreshToken;
     private Long accessTokenExpiresIn;
 }
