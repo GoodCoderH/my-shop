@@ -12,6 +12,11 @@ spring:
       hibernate:
         format_sql: true
 
+  redis:
+    host: localhost
+    port: 6379
+
+
 logging:
   level:
     org.hibernate.sql: debug
@@ -19,3 +24,4 @@ logging:
 jasypt:
   encryptor:
     bean: jasyptStringEncryptor
+

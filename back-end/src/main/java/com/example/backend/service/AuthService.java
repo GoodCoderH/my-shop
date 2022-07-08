@@ -9,11 +9,15 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.bind.annotation.CookieValue;
 
 import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletResponse;
+import java.time.Duration;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -26,7 +30,7 @@ public class AuthService {
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
     private final TokenProvider tokenProvider;
-    private final RefreshTokenRepository refreshTokenRepository;
+    private final RedisService redisService;
 
     @Transactional
     public UserResponse signUp(UserRequest userRequest) {
@@ -39,42 +43,53 @@ public class AuthService {
     }
 
     @Transactional
-    public Token login(UserRequest userRequest) {
+    public Token login(UserRequest userRequest, HttpServletResponse response) {
 
         UsernamePasswordAuthenticationToken authenticationToken = userRequest.toAuthentication();
 
         Authentication authentication = authenticationManagerBuilder.getObject().authenticate(authenticationToken);
         Token token = tokenProvider.generateToken(authentication);
 
+        response.addCookie(token.getRefreshToken());
+
         RefreshToken refreshToken = new RefreshToken();
         refreshToken.setKey(authentication.getName());
         refreshToken.setValue(token.getRefreshToken().getValue());
 
-        refreshTokenRepository.save(refreshToken);
+        redisService.setValues(authentication.getName(),
+                refreshToken.getValue(), Duration.ofMillis(token.getRefreshTokenExpiresIn()));
 
         return token;
     }
 
     @Transactional
-    public Token reissue(TokenRequest tokenRequest) {
+    public Token reissue(Cookie cookie, String accessToken, HttpServletResponse response) {
 
-        if (!tokenProvider.validateToken(tokenRequest.getRefreshToken())) {
+        System.out.println("accessToken = " + accessToken);
+
+        String refreshToken = cookie.getValue();
+        System.out.println("refreshToken = " + refreshToken);
+
+        if (!tokenProvider.validateToken(refreshToken)) {
             throw new RuntimeException("Invalid token.");
         }
 
-        Authentication authentication = tokenProvider.getAuthentication(tokenRequest.getAccessToken());
+        Authentication authentication = tokenProvider.getAuthentication(accessToken);
 
-        RefreshToken refreshToken = refreshTokenRepository.findByKey(authentication.getName())
-                .orElseThrow(() -> new RuntimeException("Logged out user."));
+        String values = redisService.getValues(authentication.getName());
 
-        if (!refreshToken.getValue().equals(tokenRequest.getRefreshToken())) {
+        if (!values.equals(refreshToken)) {
             throw new RuntimeException("The token's user information does not match.");
         }
 
         Token token = tokenProvider.generateToken(authentication);
 
-        RefreshToken newRefreshToken = refreshToken.updateValue(token.getRefreshToken().getValue());
-        refreshTokenRepository.save(newRefreshToken);
+        redisService.setValues(authentication.getName(),
+                token.getRefreshToken().getValue(), Duration.ofMillis(token.getRefreshTokenExpiresIn()));
+
+        System.out.println(redisService.getValues(authentication.getName()));
+
+//        response.addCookie(token.getRefreshToken());
 
         return token;
 

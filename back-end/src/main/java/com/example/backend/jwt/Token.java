@@ -12,4 +12,5 @@ public class Token {
     private String accessToken;
     private Cookie refreshToken;
     private Long accessTokenExpiresIn;
+    private Long refreshTokenExpiresIn;
 }

@@ -7,11 +7,10 @@ import com.example.backend.jwt.UserResponse;
 import com.example.backend.service.AuthService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletResponse;
 import java.util.Map;
 
 @RestController
@@ -27,12 +26,13 @@ public class AuthController {
     }
 
     @PostMapping("/login")
-    public ResponseEntity<Token> login(@RequestBody UserRequest userRequest) {
-        return ResponseEntity.ok(authService.login(userRequest));
+    public ResponseEntity<Token> login(@RequestBody UserRequest userRequest, HttpServletResponse response) {
+        return ResponseEntity.ok(authService.login(userRequest, response));
     }
 
     @PostMapping("/reissue")
-    public ResponseEntity<Token> reissue(@RequestBody TokenRequest tokenRequest) {
-        return ResponseEntity.ok(authService.reissue(tokenRequest));
+    public ResponseEntity<Token> reissue(@CookieValue(value = "refreshToken") Cookie cookie, @RequestBody String accessToken, HttpServletResponse response) {
+        return ResponseEntity.ok(authService.reissue(cookie, accessToken, response));
     }
+
 }

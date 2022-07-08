@@ -46,6 +46,8 @@ public class TokenProvider {
         long now = (new Date()).getTime();
 
         Date accessTokenExpiresIn = new Date(now + ACCESS_TOKEN_EXPIRATION_TIME);
+        Date refreshTokenExpiresIn = new Date(now + REFRESH_TOKEN_EXPIRATION_TIME);
+
         String accessToken = Jwts.builder()
                 .setSubject(authentication.getName())
                 .claim(AUTHORITIES_KEY, authorities)
@@ -63,6 +65,7 @@ public class TokenProvider {
         token.setGrantType(BEARER_TYPE);
         token.setAccessToken(accessToken);
         token.setAccessTokenExpiresIn(accessTokenExpiresIn.getTime());
+        token.setRefreshTokenExpiresIn(refreshTokenExpiresIn.getTime());
 
         Cookie cookie = new Cookie("refreshToken", refreshToken);
         cookie.setHttpOnly(true);
@@ -90,6 +93,7 @@ public class TokenProvider {
     }
 
     public Authentication getAuthentication(String accessToken) {
+
         Claims claims = parseClaims(accessToken);
 
         if (claims.get(AUTHORITIES_KEY) == null) {

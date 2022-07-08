@@ -27,7 +27,7 @@ Content-Type: application/json
 
 ### GetUserInfo
 GET http://localhost:8080/user/info
-Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiIyIiwiYXV0aCI6IlJPTEVfVVNFUiIsImV4cCI6MTY1NzA4NTgxNn0.3iLmdKv1wdEain12CU20o17xJpyFbtCZJqQhoCN9Ee6eiszpIU43sYfb7xOtvaxkJGs7s1FBixDIzB_SSoZvhQ
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiIxIiwiYXV0aCI6IlJPTEVfQURNSU4iLCJleHAiOjE2NTcyNzA4MDh9.nlt4IAs0O8flCQl9vx815FuwkFCfK6ZDLV-C8sD3zC3zCMvx3xXhnsujN-HdnNJD93HYpookW7xfat-eW2CmkQ
 
 ### GetAdminInfo
 GET http://localhost:8080/user/admin
@@ -40,6 +40,6 @@ POST http://localhost:8080/auth/reissue
 Content-Type: application/json
 
 {
-  "accessToken": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiIxIiwiYXV0aCI6IlJPTEVfVVNFUiIsImV4cCI6MTY1NzA4NDM0OH0.BTFwBkKUxvG_PPeY3erJBOXSsBDrHibD8X3XkH7d9Uk0ZyChdmmShMSf4sgBJWdmgRJiQj7Dor6oCzD_yWRI6A",
-  "refreshToken": "eyJhbGciOiJIUzUxMiJ9.eyJleHAiOjE2NTcxNjg5NDh9.T6QiW3Db0HG2PYCKAfIWv6l8T57l80caPkwg3H4PgvaW1jSBAWhq7qRkCqlvWGaT_0Q7u4907uIbBefM4sO1vQ"
+  "accessToken": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiIxIiwiYXV0aCI6IlJPTEVfQURNSU4iLCJleHAiOjE2NTcyNzI1OTZ9.KLSusTFBBbXlTPqoMQxbM12v_fZYT3OlZMQryWBZoNLvasA4FdbkQwcoxDd8YIQva0dlDmSDNDucUGdZV8Yq5A",
+  "refreshToken": "eyJhbGciOiJIUzUxMiJ9.eyJleHAiOjE2NTcyNzA4MDZ9.kd0jcLH6uTuR4VK0d76vN1mFI9rABkvdrhVJMn_Z25uKzIyErChGpvXkTcR-J7HDKzBh9Ei6L1SYAT9ws9Sp1w"
 }
