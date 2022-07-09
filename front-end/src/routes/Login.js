@@ -13,18 +13,20 @@ const Login = () => {
   const [navigate, setNavigate] = useState(false);
 
   const onSubmit = async (data) => {
+    console.log(data);
     await axios
       .post("/auth/login", data, {
         withCredentials: "true",
       })
       .then((res) => {
         setNavigate(true);
-        onLoginSuccess(res.data);
+        onLoginSuccess(res.data.accessToken);
       });
   };
 
   const onLoginSuccess = (token) => {
     axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
+    console.log(token);
   };
 
   if (navigate) {

@@ -5,6 +5,7 @@ import com.example.backend.jwt.UserResponse;
 import com.example.backend.repository.UserRepository;
 import com.example.backend.security.SecurityUtil;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -22,7 +23,8 @@ public class UserService {
     }
 
     public User findByUsername(String username) {
-        return userRepository.findByUsername(username).get();
+        return userRepository.findByUsername(username)
+                .orElseThrow(() -> new UsernameNotFoundException("Username not found : " + username));
     }
 
     public List<User> findAll() {
