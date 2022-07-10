@@ -27,11 +27,11 @@ Content-Type: application/json
 
 ### GetUserInfo
 GET http://localhost:8080/user/info
-Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiIxIiwiYXV0aCI6IlJPTEVfQURNSU4iLCJleHAiOjE2NTcyNzA4MDh9.nlt4IAs0O8flCQl9vx815FuwkFCfK6ZDLV-C8sD3zC3zCMvx3xXhnsujN-HdnNJD93HYpookW7xfat-eW2CmkQ
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiIyIiwiYXV0aCI6IlJPTEVfVVNFUiIsImV4cCI6MTY1NzQ1NjAyNH0.et1jmsodyqmY1UdhrgYVXAuCbzMovWpt13HqP57KKkw9yP1GPxC6OPfz3hBPg3gLjGmto0UTsb5ILHSxZDt72w
 
 ### GetAdminInfo
 GET http://localhost:8080/user/admin
-Authorization: Bearer eyJhbGciOiddJIUzUxMiJ9.eyJzdWIiOiIxIasfdsdafiwiYXV0aCI6IlJPTEVfQURNSU4iLCJleHAiOjE2NTcyNzY1MjZ9.GKGJVYwz_qWryWapGcKhav8Q4KjEKlhRwhzHjEiHBetYU7WM5CcaKAKLyHSvC5EMZRljZZyC3CbdCV9-wFM1xg
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiIyIiwiYXV0aCI6IlJPTEVfVVNFUiIsImV4cCI6MTY1NzQ0OTU4MX0.7HcxC0vcJAk5lMGh7gdnsxM_ZM5r26oKehMN75mJDJ2dfNhi8CFAShDTQZTD7oShT2n9joV9XxAdqkE-4Zm8Xg
 
 
 
@@ -40,6 +40,6 @@ POST http://localhost:8080/auth/reissue
 Content-Type: application/json
 
 {
-  "accessToken": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiIxIiwiYXV0aCI6IlJPTEVfQURNSU4iLCJleHAiOjE2NTcyNzI1OTZ9.KLSusTFBBbXlTPqoMQxbM12v_fZYT3OlZMQryWBZoNLvasA4FdbkQwcoxDd8YIQva0dlDmSDNDucUGdZV8Yq5A",
+  "accessToken": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiIyIiwiYXV0aCI6IlJPTEVfVVNFUiIsImV4cCI6MTY1NzQ1NzcxMn0.mfDAHzNuUHzI1Bhx58MlwFpNmPr5oqBJnzAfIZkRdnqcGmuTE4pKMIAMgeRXSYimrog_05Ibbh52nn8vR-2ZdQ",
   "refreshToken": "eyJhbGciOiJIUzUxMiJ9.eyJleHAiOjE2NTcyNzA4MDZ9.kd0jcLH6uTuR4VK0d76vN1mFI9rABkvdrhVJMn_Z25uKzIyErChGpvXkTcR-J7HDKzBh9Ei6L1SYAT9ws9Sp1w"
 }

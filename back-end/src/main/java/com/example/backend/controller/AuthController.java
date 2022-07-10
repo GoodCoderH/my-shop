@@ -1,6 +1,7 @@
 package com.example.backend.controller;
 
 import com.example.backend.domain.RefreshToken;
+import com.example.backend.jwt.JwtFilter;
 import com.example.backend.jwt.Token;
 import com.example.backend.jwt.TokenProvider;
 import com.example.backend.jwt.UserRequest;
@@ -12,10 +13,13 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.time.Duration;
 
@@ -29,6 +33,7 @@ public class AuthController {
     private final AuthenticationManagerBuilder authenticationManagerBuilder;
     private final TokenProvider tokenProvider;
     private final RedisService redisService;
+    private final JwtFilter jwtFilter;
 
 
 
@@ -60,11 +65,12 @@ public class AuthController {
     }
 
     @PostMapping("/reissue")
-    public ResponseEntity<?> reissue(@CookieValue(value = "refreshToken") Cookie cookie, @RequestBody String accessToken, HttpServletResponse response) {
+    public ResponseEntity<?> reissue(@CookieValue(value = "refreshToken") Cookie cookie, HttpServletRequest request, HttpServletResponse response) {
 
         String refreshToken = cookie.getValue();
+        String accessToken = jwtFilter.resolveToken(request);
 
-        if (!tokenProvider.validateToken(refreshToken)) {
+        if (!tokenProvider.validateToken(refreshToken) || !StringUtils.hasText(accessToken)) {
             return ResponseEntity.status(401).body("Invalid token.");
         }
 

@@ -9,7 +9,7 @@ const Products = () => {
   const [loading, setLoading] = useState(true);
 
   const getProducts = async () => {
-    await axios.get("/products", { withCredentials: "true" }).then((res) => {
+    await axios.get("/products", { withCredentials: true }).then((res) => {
       setProducts(res.data);
     });
 
