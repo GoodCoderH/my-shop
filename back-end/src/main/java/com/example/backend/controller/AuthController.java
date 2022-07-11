@@ -64,15 +64,16 @@ public class AuthController {
         return ResponseEntity.ok(token);
     }
 
-    @PostMapping("/reissue")
+    @GetMapping("/reissue")
     public ResponseEntity<?> reissue(@CookieValue(value = "refreshToken") Cookie cookie, HttpServletRequest request, HttpServletResponse response) {
-
         String refreshToken = cookie.getValue();
         String accessToken = jwtFilter.resolveToken(request);
 
         if (!tokenProvider.validateToken(refreshToken) || !StringUtils.hasText(accessToken)) {
             return ResponseEntity.status(401).body("Invalid token.");
         }
+
+        log.info(refreshToken);
 
         Authentication authentication = tokenProvider.getAuthentication(accessToken);
 

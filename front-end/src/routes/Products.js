@@ -16,7 +16,14 @@ const Products = () => {
     setLoading(false);
   };
 
+  const reissue = async () => {
+    await axios
+      .get("/auth/reissue", { withCredentials: true })
+      .then((res) => console.log(res.data));
+  };
   useEffect(() => {
+    reissue();
+
     getProducts();
   }, []);
 
