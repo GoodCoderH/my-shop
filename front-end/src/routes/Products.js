@@ -9,21 +9,14 @@ const Products = () => {
   const [loading, setLoading] = useState(true);
 
   const getProducts = async () => {
-    await axios.get("/products", { withCredentials: true }).then((res) => {
+    await axios.get("/products").then((res) => {
       setProducts(res.data);
     });
 
     setLoading(false);
   };
 
-  const reissue = async () => {
-    await axios
-      .get("/auth/reissue", { withCredentials: true })
-      .then((res) => console.log(res.data));
-  };
   useEffect(() => {
-    reissue();
-
     getProducts();
   }, []);
 
