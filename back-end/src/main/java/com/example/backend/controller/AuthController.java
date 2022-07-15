@@ -65,7 +65,7 @@ public class AuthController {
     }
 
     @GetMapping("/reissue")
-    public ResponseEntity<?> reissue(@CookieValue(value = "refreshToken") Cookie cookie, HttpServletRequest request, HttpServletResponse response) {
+    public ResponseEntity<?> reissue(@CookieValue("refreshToken") Cookie cookie, HttpServletRequest request, HttpServletResponse response) {
         String refreshToken = cookie.getValue();
         String accessToken = jwtFilter.resolveToken(request);
 
