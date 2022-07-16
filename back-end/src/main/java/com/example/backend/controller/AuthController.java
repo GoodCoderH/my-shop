@@ -67,15 +67,14 @@ public class AuthController {
     @GetMapping("/reissue")
     public ResponseEntity<?> reissue(@CookieValue("refreshToken") Cookie cookie, HttpServletRequest request, HttpServletResponse response) {
         String refreshToken = cookie.getValue();
-        String accessToken = jwtFilter.resolveToken(request);
 
-        if (!tokenProvider.validateToken(refreshToken) || !StringUtils.hasText(accessToken)) {
+        if (!tokenProvider.validateToken(refreshToken)) {
             return ResponseEntity.status(401).body("Invalid token.");
         }
 
         log.info(refreshToken);
 
-        Authentication authentication = tokenProvider.getAuthentication(accessToken);
+        Authentication authentication = tokenProvider.getAuthentication(refreshToken);
 
         String values = redisService.getValues(authentication.getName());
 
@@ -91,7 +90,14 @@ public class AuthController {
 
         response.addCookie(token.getRefreshToken());
 
-        return ResponseEntity.ok(token);
+        String accessToken = token.getAccessToken();
+
+        return ResponseEntity.ok(accessToken);
+    }
+
+    @GetMapping
+    public void getCurrentHeader(HttpServletRequest request) {
+        log.info("Current axios header : {}", request.getHeader("Authorization"));
     }
 
 }
