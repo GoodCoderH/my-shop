@@ -40,6 +40,10 @@ public class AuthController {
     @PostMapping("/login")
     public ResponseEntity<?> login(@RequestBody UserRequest userRequest, HttpServletResponse response) {
 
+        if (userRequest.getUsername().isBlank() || userRequest.getPassword().isBlank()) {
+            return ResponseEntity.status(400).build();
+        }
+
         try {
             userService.findByUsername(userRequest.getUsername());
         } catch (UsernameNotFoundException e) {
@@ -95,9 +99,5 @@ public class AuthController {
         return ResponseEntity.ok(accessToken);
     }
 
-    @GetMapping
-    public void getCurrentHeader(HttpServletRequest request) {
-        log.info("Current axios header : {}", request.getHeader("Authorization"));
-    }
 
 }

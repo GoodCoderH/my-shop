@@ -1,7 +1,9 @@
 import axios from "../api/axios";
 
 const onSilentRefresh = async () => {
-  await axios.get("/auth/reissue").then((res) => console.log(res.data));
+  const response = await axios.get("/auth/reissue");
+
+  return response.data.accessToken;
 };
 
 export default onSilentRefresh;

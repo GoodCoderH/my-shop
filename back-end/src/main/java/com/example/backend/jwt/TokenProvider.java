@@ -1,6 +1,7 @@
 package com.example.backend.jwt;
 
 import com.auth0.jwt.interfaces.DecodedJWT;
+import com.example.backend.auth.Authority;
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
@@ -68,6 +69,7 @@ public class TokenProvider {
         token.setAccessToken(accessToken);
         token.setAccessTokenExpiresIn(accessTokenExpiresIn.getTime());
         token.setRefreshTokenExpiresIn(refreshTokenExpiresIn.getTime());
+        token.setRoles(Authority.valueOf(authorities));
 
         Cookie cookie = new Cookie("refreshToken", refreshToken);
         cookie.setHttpOnly(true);

@@ -1,5 +1,6 @@
 package com.example.backend.jwt;
 
+import com.example.backend.auth.Authority;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -13,4 +14,5 @@ public class Token {
     private Cookie refreshToken;
     private Long accessTokenExpiresIn;
     private Long refreshTokenExpiresIn;
+    private Authority roles;
 }
