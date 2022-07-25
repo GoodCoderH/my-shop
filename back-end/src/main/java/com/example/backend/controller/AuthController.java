@@ -33,9 +33,6 @@ public class AuthController {
     private final AuthenticationManagerBuilder authenticationManagerBuilder;
     private final TokenProvider tokenProvider;
     private final RedisService redisService;
-    private final JwtFilter jwtFilter;
-
-
 
     @PostMapping("/login")
     public ResponseEntity<?> login(@RequestBody UserRequest userRequest, HttpServletResponse response) {
@@ -72,11 +69,11 @@ public class AuthController {
     public ResponseEntity<?> reissue(@CookieValue("refreshToken") Cookie cookie, HttpServletRequest request, HttpServletResponse response) {
         String refreshToken = cookie.getValue();
 
-        if (!tokenProvider.validateToken(refreshToken)) {
-            return ResponseEntity.status(401).body("Invalid token.");
-        }
+//        if (!tokenProvider.validateToken(refreshToken)) {
+//            return ResponseEntity.status(401).body("Invalid token.");
+//        }
 
-        log.info(refreshToken);
+        log.info("refreshToken " + refreshToken);
 
         Authentication authentication = tokenProvider.getAuthentication(refreshToken);
 
@@ -95,6 +92,7 @@ public class AuthController {
         response.addCookie(token.getRefreshToken());
 
         String accessToken = token.getAccessToken();
+        log.info("accessToken={}", accessToken);
 
         return ResponseEntity.ok(accessToken);
     }

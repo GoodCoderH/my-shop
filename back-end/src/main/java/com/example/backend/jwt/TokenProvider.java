@@ -84,14 +84,9 @@ public class TokenProvider {
         try {
             Jwts.parserBuilder().setSigningKey(key).build().parseClaimsJws(token);
             return true;
-        } catch (SecurityException | MalformedJwtException exception) {
-            log.info("Token has wrong jwt claims.");
-        } catch (ExpiredJwtException e) {
-            log.info("Token has expired.");
-        } catch (UnsupportedJwtException e) {
-            log.info("Token is not supported.");
-        } catch (IllegalArgumentException e) {
-            log.info("Invalid token.");
+        } catch (SecurityException | MalformedJwtException | ExpiredJwtException | UnsupportedJwtException |
+                 IllegalArgumentException e) {
+            log.info(e.getMessage());
         }
         return false;
     }

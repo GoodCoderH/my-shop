@@ -1,12 +1,3 @@
-### Create user
-POST http://localhost:8080/auth/signup
-Content-Type: application/json
-
-{
-  "username": "user",
-  "password": "1234"
-}
-
 ### Login user
 POST http://localhost:8080/auth/login
 Content-Type: application/json
@@ -31,12 +22,12 @@ Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiIyIiwiYXV0aCI6IlJPTEVfVVNFU
 
 ### GetAdminInfo
 GET http://localhost:8080/user/admin
-Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiIyIiwiYXV0aCI6IlJPTEVfVVNFUiIsImV4cCI6MTY1NzQ0OTU4MX0.7HcxC0vcJAk5lMGh7gdnsxM_ZM5r26oKehMN75mJDJ2dfNhi8CFAShDTQZTD7oShT2n9joV9XxAdqkE-4Zm8Xg
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiIxIiwiYXV0aCI6IlJPTEVfQURNSU4iLCJleHAiOjE2NTg3NTE4NjV9.5Iz-PNrxdAPnZwGPb_s-5g-DTjqP3PyMieZ__Ak3RzOTm17YpQ91wcTpnJaoE8K0u64HpJ4QvIPs5C3r2zol2A
 
 
 
 ### Reissue
-POST http://localhost:8080/auth/reissue
+GET http://localhost:8080/auth/reissue
 Content-Type: application/json
 
 {

@@ -18,11 +18,9 @@ import javax.servlet.http.HttpServletRequest;
 public class UserController {
 
     private final UserService userService;
-    private final JwtFilter jwtFilter;
 
     @GetMapping("/info")
     public ResponseEntity<UserResponse> getMyUserInfo(HttpServletRequest request) {
-        jwtFilter.resolveToken(request);
         return ResponseEntity.ok(userService.getMyInfo());
     }
 

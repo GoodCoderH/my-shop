@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import axios from "../api/axios";
 
-const Users = () => {
+const Test = () => {
   const [ok, setOk] = useState();
 
   const test = async () => {
@@ -18,6 +18,10 @@ const Users = () => {
     test();
   }, []);
 
-  return <div>{ok}</div>;
+  return (
+    <div>
+      <div>{ok}</div>
+    </div>
+  );
 };
-export default Users;
+export default Test;
