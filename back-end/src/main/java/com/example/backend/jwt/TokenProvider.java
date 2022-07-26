@@ -86,9 +86,8 @@ public class TokenProvider {
             return true;
         } catch (SecurityException | MalformedJwtException | ExpiredJwtException | UnsupportedJwtException |
                  IllegalArgumentException e) {
-            log.info(e.getMessage());
+            return false;
         }
-        return false;
     }
 
     public Authentication getAuthentication(String accessToken) {

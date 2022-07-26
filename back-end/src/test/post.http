@@ -22,7 +22,7 @@ Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiIyIiwiYXV0aCI6IlJPTEVfVVNFU
 
 ### GetAdminInfo
 GET http://localhost:8080/user/admin
-Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiIxIiwiYXV0aCI6IlJPTEVfQURNSU4iLCJleHAiOjE2NTg3NTE4NjV9.5Iz-PNrxdAPnZwGPb_s-5g-DTjqP3PyMieZ__Ak3RzOTm17YpQ91wcTpnJaoE8K0u64HpJ4QvIPs5C3r2zol2A
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiIxIiwiYXV0aCI6IlJPTEVfQURNSU4iLCJleHAiOjE2NTg4Mzg3MTZ9.YJSTjre-prwgmFqDfLIESLtMDug8ERFGDnbwMWGDMLUrsRuLeKAdjpjvoazP7e_sTbb6sG21N3liuamXL3cIDA
 
 
 

@@ -1,14 +1,17 @@
 import { useEffect, useState } from "react";
-import axios from "../api/axios";
+import useAxiosPrivate from "../hooks/useAxiosPrivate";
 
 const Test = () => {
   const [ok, setOk] = useState();
+  const [loading, setLoading] = useState(true);
+  const axiosPrivate = useAxiosPrivate();
 
   const test = async () => {
     try {
-      const response = await axios.get("/user/admin");
+      const response = await axiosPrivate.get("/user/admin");
       console.log(response.data);
       setOk(response.data);
+      setLoading(false);
     } catch (err) {
       console.error(err);
     }
@@ -18,10 +21,6 @@ const Test = () => {
     test();
   }, []);
 
-  return (
-    <div>
-      <div>{ok}</div>
-    </div>
-  );
+  return <div>{loading ? "load.." : <div>{ok}</div>}</div>;
 };
 export default Test;

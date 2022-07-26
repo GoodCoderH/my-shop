@@ -66,14 +66,10 @@ public class AuthController {
     }
 
     @GetMapping("/reissue")
-    public ResponseEntity<?> reissue(@CookieValue("refreshToken") Cookie cookie, HttpServletRequest request, HttpServletResponse response) {
+    public ResponseEntity<?> reissue(@CookieValue("refreshToken") Cookie cookie, HttpServletResponse response) {
         String refreshToken = cookie.getValue();
 
-//        if (!tokenProvider.validateToken(refreshToken)) {
-//            return ResponseEntity.status(401).body("Invalid token.");
-//        }
-
-        log.info("refreshToken " + refreshToken);
+        log.info("refreshToken: " + refreshToken);
 
         Authentication authentication = tokenProvider.getAuthentication(refreshToken);
 
@@ -92,7 +88,6 @@ public class AuthController {
         response.addCookie(token.getRefreshToken());
 
         String accessToken = token.getAccessToken();
-        log.info("accessToken={}", accessToken);
 
         return ResponseEntity.ok(accessToken);
     }
