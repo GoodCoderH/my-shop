@@ -92,5 +92,12 @@ public class AuthController {
         return ResponseEntity.ok(accessToken);
     }
 
+    @GetMapping("/logout")
+    public void logout(@CookieValue("refreshToken") Cookie cookie) {
+        String refreshToken = cookie.getValue();
+
+        Authentication authentication = tokenProvider.getAuthentication(refreshToken);
+        redisService.deleteValues(authentication.getName());
+    }
 
 }

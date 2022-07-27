@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { Navigate } from "react-router-dom";
 import useAxiosPrivate from "../hooks/useAxiosPrivate";
 
 const Test = () => {
@@ -8,8 +9,14 @@ const Test = () => {
 
   const test = async () => {
     try {
-      const response = await axiosPrivate.get("/user/admin");
-      console.log(response.data);
+      const response = await axiosPrivate
+        .get("/user/admin")
+        .catch((err) =>
+          !err.response.status === 401 || !err.response.status === 403
+            ? window.location.replace("/login")
+            : console.log(response.data)
+        );
+
       setOk(response.data);
       setLoading(false);
     } catch (err) {
