@@ -8,20 +8,18 @@ const Test = () => {
   const axiosPrivate = useAxiosPrivate();
 
   const test = async () => {
-    try {
-      const response = await axiosPrivate
-        .get("/user/admin")
-        .catch((err) =>
-          !err.response.status === 401 || !err.response.status === 403
-            ? window.location.replace("/login")
-            : console.log(response.data)
-        );
+    const response = await axiosPrivate
+      .get("/user/admin")
+      .catch(function (error) {
+        if (error.response.status === 403) {
+          window.location.replace("/");
+        } else if (error.response.status != 401) {
+          window.location.replace("/login");
+        }
+      });
 
-      setOk(response.data);
-      setLoading(false);
-    } catch (err) {
-      console.error(err);
-    }
+    setOk(response.data);
+    setLoading(false);
   };
 
   useEffect(() => {

@@ -4,6 +4,7 @@ import Delivery from "./routes/Delivery";
 import Detail from "./routes/Detail";
 import Home from "./routes/Home";
 import Login from "./routes/Login";
+import Logout from "./routes/Logout";
 import Products from "./routes/Products";
 import Signup from "./routes/Signup";
 import Test from "./routes/Test";
@@ -18,6 +19,7 @@ function App() {
       <Route path="/products/:name" element={<Detail />} />
       <Route path="/test" element={<Test />} />
       <Route path="/delivery" element={<Delivery />} />
+      <Route path="/logout" element={<Logout />} />
     </Routes>
   );
 }

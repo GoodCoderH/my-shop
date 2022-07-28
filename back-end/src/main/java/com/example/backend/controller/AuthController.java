@@ -69,11 +69,15 @@ public class AuthController {
     public ResponseEntity<?> reissue(@CookieValue("refreshToken") Cookie cookie, HttpServletResponse response) {
         String refreshToken = cookie.getValue();
 
-        log.info("refreshToken: " + refreshToken);
+//        log.info("refreshToken: " + refreshToken);
 
         Authentication authentication = tokenProvider.getAuthentication(refreshToken);
 
         String values = redisService.getValues(authentication.getName());
+
+        if (values == null) {
+            return ResponseEntity.status(500).body("The token is missing.");
+        }
 
         if (!values.equals(refreshToken)) {
             return ResponseEntity.status(401).body("The token's user information does not match.");
