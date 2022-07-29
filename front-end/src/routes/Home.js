@@ -1,8 +1,23 @@
 import Footer from "../components/Footer";
 import Navbar from "../components/Navbar";
 import { Link } from "react-router-dom";
+import { axiosPrivate } from "../api/axios";
+import { useEffect, useState } from "react";
+import useAxiosPrivate from "../hooks/useAxiosPrivate";
 
 const Home = () => {
+  const [login, setLogin] = useState(false);
+  const axiosPrivate = useAxiosPrivate();
+
+  const home = async () => {
+    const response = await axiosPrivate.get("/user/info");
+    console.log(response.data);
+  };
+
+  useEffect(() => {
+    home();
+  }, []);
+
   return (
     <>
       <Navbar />
@@ -29,12 +44,20 @@ const Home = () => {
             <br />
             fruits
           </h1>
-          <Link
-            className="w-48 mt-10 bg-transparent border hero border-main text-main hover:bg-main hover:text-white text-center py-2 px-4 rounded"
-            to="/login"
-          >
-            Start
-          </Link>
+          <div className="flex">
+            <Link
+              className="w-48 m-0.5 mt-10 bg-transparent border hero border-main text-main hover:bg-main hover:text-white text-center py-2 px-4 rounded"
+              to="/login"
+            >
+              Start
+            </Link>
+            <Link
+              className="w-48 m-0.5 mt-10 bg-transparent border hero border-main text-main hover:bg-main hover:text-white text-center py-2 px-4 rounded"
+              to="/logout"
+            >
+              Logout
+            </Link>
+          </div>
         </div>
       </main>
       <Footer />

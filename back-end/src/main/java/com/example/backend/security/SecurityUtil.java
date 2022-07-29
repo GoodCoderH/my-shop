@@ -7,13 +7,15 @@ import org.springframework.security.core.context.SecurityContextHolder;
 @Slf4j
 public class SecurityUtil {
 
-    public static Long getCurrentUserId() {
+    public static String getCurrentUsername() {
         final Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 
         if (authentication == null || authentication.getName() == null) {
             throw new RuntimeException("Security Context does not contain credentials");
         }
 
-        return Long.parseLong(authentication.getName());
+        log.info("Current user : "+authentication.getName());
+
+        return authentication.getName();
     }
 }

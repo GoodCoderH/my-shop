@@ -1,5 +1,4 @@
 import { useEffect, useState } from "react";
-import { Navigate } from "react-router-dom";
 import useAxiosPrivate from "../hooks/useAxiosPrivate";
 
 const Test = () => {
@@ -13,7 +12,7 @@ const Test = () => {
       .catch(function (error) {
         if (error.response.status === 403) {
           window.location.replace("/");
-        } else if (error.response.status != 401) {
+        } else if (error.response.status !== 401) {
           window.location.replace("/login");
         }
       });

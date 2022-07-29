@@ -30,7 +30,7 @@ public class UserService {
     }
 
     public UserResponse getMyInfo() {
-        return userRepository.findById(SecurityUtil.getCurrentUserId())
+        return userRepository.findByUsername(SecurityUtil.getCurrentUsername())
                 .map(UserResponse::of)
                 .orElseThrow(() -> new RuntimeException("Login user information is missing."));
     }
