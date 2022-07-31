@@ -3,6 +3,7 @@ import { Link, Navigate } from "react-router-dom";
 import axios from "../api/axios";
 import Footer from "../components/Footer";
 import Navbar from "../components/Navbar";
+import useAxiosPrivate from "../hooks/useAxiosPrivate";
 
 const Products = () => {
   const [products, setProducts] = useState();

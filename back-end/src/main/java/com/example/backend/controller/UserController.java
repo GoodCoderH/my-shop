@@ -1,6 +1,5 @@
 package com.example.backend.controller;
 
-import com.example.backend.jwt.JwtFilter;
 import com.example.backend.jwt.UserResponse;
 import com.example.backend.service.UserService;
 import lombok.RequiredArgsConstructor;
